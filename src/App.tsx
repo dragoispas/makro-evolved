@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { FlexBox } from './styledComponents';
+import LeftMenu from './Components/LeftMenu';
+import { Routes, Route } from 'react-router-dom';
+import { Dashboard, Diary, Foods, Profile, Trends } from './Components/Pages'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FlexBox>
+      <LeftMenu />
+      <Routes>
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/Dashboard' element={<Dashboard />} />
+        <Route path='/Diary' element={<Diary />} />
+        <Route path='/Foods' element={<Foods />} />
+        <Route path='/Trends' element={<Trends />} />
+        <Route path='/Profile' element={<Profile />} />
+      </Routes>
+      {/* <FlexBox width='100vw' height='70px' align='center' style={{ borderBottom: "1px solid lightgrey", fontSize: "24px", paddingLeft: "30px" }}>Dashboard</FlexBox> */}
+    </FlexBox>
   );
 }
 
