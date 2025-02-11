@@ -1,4 +1,4 @@
-import { previousDay, isSameDay, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, format, addDays, subDays } from "date-fns";
+import { isSameDay, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, format, addDays, subDays } from "date-fns";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import { FlexBox } from "../styledComponents";
@@ -8,6 +8,10 @@ import { ReactComponent as CalendarIcon } from '../icons/calendar_2.svg';
 
 function Calendar() {
     const today = new Date();
+    const currentMonthDays = getCalendarDays(today.getFullYear(), today.getMonth());
+    const [selectedDate, setSelectedDate] = useState<Date>(today)
+    const [calendarDays, setCalendarDays] = useState(currentMonthDays);
+    const [calendarMonth, setCalendarMonth] = useState<number>(today.getMonth());
 
     function getCalendarDays(year: number, month: number) {
         const firstDayOfMonth = startOfMonth(new Date(year, month));
@@ -21,38 +25,30 @@ function Calendar() {
         return days;
     }
 
-
-    const day = today.getDay();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-    const currentMonthDays = getCalendarDays(year, month);
-    const [selectedDate, setSelectedDate] = useState<Date>(today)
-    const [calendarDays, setCalendarDays] = useState(currentMonthDays);
-    const [calendarMonth, setCalendarMonth] = useState<number>(month);
-
-    function updateMonth(month: number) {
+    function updateCalendarDays(year: number, month: number) {
         const newCalendarDays = getCalendarDays(year, month);
         setCalendarDays(newCalendarDays);
     }
 
-
-
     useEffect(() => {
-        // console.log(calendarDays)
-        // console.log(calendarDays.map(day => format(day, "yyyy-MM-dd")));
-    }, [calendarDays])
+        const isDateInArray = calendarDays.some(day =>
+            day.getFullYear() === selectedDate.getFullYear() &&
+            day.getMonth() === selectedDate.getMonth() &&
+            day.getDate() === selectedDate.getDate()
+        );
 
-    function renderTableBody(month: number) {
+        if (!isDateInArray) {
+            updateCalendarDays(selectedDate.getFullYear(), selectedDate.getMonth());
+            setCalendarMonth(selectedDate.getMonth())
+        }
+
+    }, [selectedDate])
+
+    function renderTableBody() {
         const weeks = [];
         for (let i = 0; i < calendarDays.length; i += 7) {
             weeks.push(calendarDays.slice(i, i + 7));
         }
-        // weeks.map((week, weekIndex) => (
-        //     week.map((day, dayIndex) => (
-        //         console.log(day)
-        //     ))
-        // ))
-
         return (
             <tbody>
                 {weeks.map((week, weekIndex) => (
@@ -68,11 +64,9 @@ function Calendar() {
 
     function renderCalendarDay(day: Date) {
 
-        const isInsideMonth = day.getMonth() === calendarMonth;
-        const isSelectedDate = isSameDay(day, selectedDate);
+        const isInsideMonth = day.getMonth() === calendarMonth; // instead I want to check if day is included in the array calendarDays
 
-        console.log(day.getDate())
-        console.log(selectedDate.getDate());
+        const isSelectedDate = isSameDay(day, selectedDate);
         return (
             <Button onClick={() => setSelectedDate(day)} selected={isSelectedDate} style={{ width: "35px", height: "35px", color: isSelectedDate ? "white" : isInsideMonth ? "" : "grey" }}>{format(day, "d")}</Button>
         )
@@ -80,7 +74,6 @@ function Calendar() {
 
     function getSelectedDate() {
         if (isSameDay(selectedDate, today)) return "Today";
-
         return format(selectedDate, 'd MMM yyyy');
     }
 
@@ -107,7 +100,7 @@ function Calendar() {
                         <th>Sa</th>
                     </tr>
                 </thead>
-                {renderTableBody(calendarMonth)}
+                {renderTableBody()}
             </table>
         </FlexBox>
     )
