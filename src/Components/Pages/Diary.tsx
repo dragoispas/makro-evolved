@@ -4,6 +4,8 @@ import { ReactComponent as AppleIcon } from '../../icons/apple.svg';
 import { ReactComponent as ScaleIcon } from '../../icons/scale.svg';
 import { ReactComponent as NoteIcon } from '../../icons/note.svg';
 import Calendar from "../Calendar";
+import Note from "../Note";
+import FoodDiary from "../FoodDiary";
 
 function Diary() {
     return (
@@ -16,11 +18,8 @@ function Diary() {
                     <Button Icon={ScaleIcon}>Log Weight</Button>
                     <Button Icon={NoteIcon}>Add Note</Button>
                 </FlexBox>
-                <Paper column gap="l" style={{ marginTop: "14px" }}>
-                    <Paper2 >test</Paper2>
-                    <Paper2 >test</Paper2>
-                    <Paper2 >test</Paper2>
-                </Paper>
+                <FoodDiary />
+                <Note>Today I fucked my cat and it was wonderful, it felt so tight and I came so fast that it didn't even have time to scratch me that bad. <br></br><br></br>Today I also realised that I am gay.</Note>
             </div>
         </FlexBox>
     )

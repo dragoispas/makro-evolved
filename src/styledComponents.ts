@@ -40,7 +40,14 @@ const Paper2 = styled(FlexBox)`
   border-radius: 16px;
   background-color:white; 
   padding: 20px;
+  transition: box-shadow 0.2s ease; 
+  font-weight: 500;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 23px rgba(0, 0, 0, 0.15);
+  }
 `
 
 const ButtonBase = styled.button<{ selected?: boolean }>`
