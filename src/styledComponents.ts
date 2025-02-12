@@ -50,39 +50,74 @@ const Paper2 = styled(FlexBox)`
   }
 `
 
-const ButtonBase = styled.button<{ selected?: boolean }>`
+const ButtonBase = styled.button<{ highlighted?: boolean, circular?: boolean }>`
   border: none;
   background-color: transparent;
   cursor: pointer;
-  border-radius: 16px;
-  padding: 6px;
+  border-radius: ${props => props.circular ? "25px" : "12px"};
+  padding: ${props => props.circular ? "6px 16px" : "6px"};
   font-weight: bold;
   font-size: 14px;
   transition: background-color 0.1s ease; 
 
   &:hover {
-    ${({ selected }) => !selected && "background-color: rgb(245, 245, 245); color: black;"}
+    ${({ highlighted }) => !highlighted && "background-color: rgb(245, 245, 245); color: black;"}
   }
 
-  ${({ selected }) =>
-    selected &&
+  ${({ highlighted }) =>
+    highlighted &&
     `
     background-color: black; 
     color: white;
-    pointer-events: none;
     padding: 8px;
   `}
 
   svg {
     width: 30px;
     height: 30px;
-    fill: ${({ selected }) => (selected ? "white" : "black")};
-    stroke: ${({ selected }) => (selected ? "white" : "black")};
+    fill: ${({ highlighted }) => (highlighted ? "white" : "black")};
+    stroke: ${({ highlighted }) => (highlighted ? "white" : "black")};
     transition: fill 0.1s ease, stroke 0.1s ease;
   }
+`;
+
+const InputWrapper = styled.div<{ large?: boolean }>`
+  display: flex;
+  align-items: baseline;
+  gap: 8px; 
+  background-color: rgb(245, 245, 245);
+  padding: 5px;
+  font-size: 16px;
+  padding: 5px;
+  border-bottom: 2px solid rgb(109, 109, 109);
+  &:hover {
+    border-bottom: 2px solid black;
+  }
+
+  &:focus {
+    border-bottom: 2px solid black;
+  }
+`;
+
+const Prefix = styled.div`
+  // font-size: 16px;
+  // font-weight: 500;
+  // color: rgb(109, 109, 109);
+`;
+
+const InputBase = styled.input`
+  border: none;
+  background-color: inherit;
+  outline: none;
+  transition: border-bottom-color 0.3s ease;
+  font-weight: 500;
+  font-size: 16px;
+  
+  
 `;
 
 
 
 
-export { FlexBox, ButtonBase, Paper, Paper2 };
+
+export { FlexBox, ButtonBase, Paper, Paper2, InputBase, InputWrapper, Prefix };

@@ -1,4 +1,4 @@
-import { Paper, Paper2 } from "../styledComponents"
+import { FlexBox, Paper, Paper2 } from "../styledComponents"
 import { differenceInMinutes, format, isSameHour } from "date-fns"
 
 const testItems = [
@@ -114,14 +114,26 @@ const FoodDiary = () => {
             );
         }
 
+        const getMakros = () => {
+            return ` (${item.protein} protein, ${item.fat} fat, ${item.carbohydrates} carbohydrates, ${item.calories} calories)`
+        }
+
         // Display food item
         groupedItems.push(
-            <Paper2 justify="space-between" style={{ fontSize: "14px" }} key={`item-${index}`}><div>{item.name}</div><div>{item.weight}g</div></Paper2>
+            <Paper2 column gap="xs" style={{ fontSize: "14px", padding: "16px" }} key={`item-${index}`}>
+                <FlexBox gap="s" justify="space-between" style={{ width: "100%" }}>
+                    <div>{item.name}</div>
+                    <FlexBox gap="s">
+                        <div style={{ fontWeight: "400", color: "grey" }}>{getMakros()}</div>
+                        <div>{item.weight} g</div>
+                    </FlexBox>
+                </FlexBox>
+            </Paper2>
         );
     });
 
     return (
-        <Paper column gap="l" style={{ marginTop: "14px" }}>
+        <Paper column gap="l" style={{ marginTop: "14px", minWidth: "300px" }}>
             {groupedItems}
         </Paper>
     );
