@@ -1,4 +1,4 @@
-import { FlexBox, Paper, Paper2 } from "../../styledComponents";
+import { FlexBox, Paper, Paper2, ScrollableBox, SearchItem, Typography } from "../../styledComponents";
 import Button from "../Button";
 import { ReactComponent as AppleIcon } from '../../icons/apple.svg';
 import { ReactComponent as ScaleIcon } from '../../icons/scale.svg';
@@ -9,6 +9,8 @@ import FoodDiary from "../FoodDiary";
 import { useEffect, useState } from "react";
 import Drawer from "../Drawer";
 import Input from "../Input";
+import { ReactComponent as SearchIcon } from "../../icons/search.svg";
+import SearchInputBox from "../SearchInputBox";
 
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -26,15 +28,25 @@ function Diary() {
 
     const renderLogFood = () => {
         return (
-            <FlexBox column align="center" justify="space-between" width="100%" height="100%">
-                <Input prefix="Weight:" type="number" />
-                <Button circular selected style={{ width: "80%" }}>Save</Button>
+            <FlexBox column align="center" gap="l" width="100%" height="100%">
+                <Typography bold>Add Food to Diary</Typography>
+                <SearchInputBox />
+                <Typography bold>Test item</Typography>
+                <FlexBox gap="m">
+                    <Input prefix="Quantity (g)" />
+                    <Input type="time" prefix="Timestamp" />
+                </FlexBox>
+                <Button style={{ width: "60%" }}>Add to Diary</Button>
             </FlexBox>
         )
     }
     const renderLogWeight = () => {
         return (
-            <FlexBox align="center" >Log Weight</FlexBox>
+            <FlexBox column align="center" gap="xxl" width="100%" height="100%">
+                <FlexBox>** Graph with recent weight changes **</FlexBox>
+                <Input prefix="Weight" type="number" />
+                <Button square selected style={{ width: "60%" }}>Save</Button>
+            </FlexBox>
         )
     }
     const renderAddNote = () => {
@@ -49,9 +61,9 @@ function Diary() {
             <div style={{ margin: "20px" }}>
                 <Calendar />
                 <FlexBox>
-                    <Button circular onClick={() => openDrawer("LogFood")} Icon={AppleIcon}>Log Food</Button>
-                    <Button circular onClick={() => openDrawer("LogWeight")} Icon={ScaleIcon}>Log Weight</Button>
-                    <Button circular onClick={() => openDrawer("AddNote")} Icon={NoteIcon}>Add Note</Button>
+                    <Button onClick={() => openDrawer("LogFood")} Icon={AppleIcon}>Log Food</Button>
+                    <Button onClick={() => openDrawer("LogWeight")} Icon={ScaleIcon}>Log Weight</Button>
+                    <Button onClick={() => openDrawer("AddNote")} Icon={NoteIcon}>Add Note</Button>
                 </FlexBox>
                 <FoodDiary />
                 <Note>Today I fucked my cat and it was wonderful, it felt so tight and I came so fast that it didn't even have time to scratch me that bad. <br></br><br></br>Today I also realised that I am gay.</Note>
