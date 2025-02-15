@@ -1,11 +1,12 @@
-import { FlexBox, Paper, Interactable, PaperHeader, Typography } from "../styledComponents";
+import { Paper, Interactable, PaperHeader, Typography } from "../styledComponents";
 
 interface Props {
     title?: string;
-    children?: React.ReactNode
+    text: string
 }
 
-const Note: React.FC<Props> = ({ title, children }) => {
+const Note: React.FC<Props> = ({ title, text }) => {
+
     return (
         <Paper column gap="l" style={{ marginTop: "14px" }}>
             <PaperHeader>
@@ -13,8 +14,8 @@ const Note: React.FC<Props> = ({ title, children }) => {
             </PaperHeader>
 
             <Interactable>
-                <Typography bolder>
-                    {children}
+                <Typography style={{ whiteSpace: "pre-wrap" }} bolder size="s" >
+                    {text}
                 </Typography>
             </Interactable>
         </Paper>

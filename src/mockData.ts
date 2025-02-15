@@ -23,3 +23,12 @@ export const mockProducts: Product[] = [
     { name: "Milk", calories: 42, macronutrients: { protein: 3.4, fat: 3.3, carbohydrates: 5 } },
 ];
 
+export const mockNote: string = `This is a test note.
+
+It has multiple lines.
+
+Some lines have just one break.
+But this one has two.
+
+
+Let's see if they all render correctly!`

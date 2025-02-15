@@ -15,6 +15,7 @@ import SearchInputBox from "../SearchInputBox";
 import WeightChart from "../WeightChart";
 import FoodForm from "../FoodForm";
 import { Product } from "../../types";
+import { mockNote } from "../../mockData";
 
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -56,6 +57,7 @@ function Diary() {
         }
     }
 
+
     return (
         <>
             <PageHeader>Diary</PageHeader>
@@ -68,7 +70,7 @@ function Diary() {
                     <Button onClick={() => openDrawer("AddNote")} Icon={NoteIcon}>Add Note</Button>
                 </FlexBox>
                 <FoodDiary />
-                <Note>Today I fucked my cat and it was wonderful, it felt so tight and I came so fast that it didn't even have time to scratch me that bad. <br></br><br></br>Today I also realised that I am gay.</Note>
+                <Note text={mockNote}></Note>
             </PageBody>
         </>
     )
