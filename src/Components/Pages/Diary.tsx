@@ -58,7 +58,7 @@ function Diary() {
                 <Typography bold style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
                 <WeightChart />
                 <Input prefix="Weight (kg)" type="number" />
-                <Button style={{ width: "100%" }} Icon={CheckIcon}>Save Weight</Button>
+                <Button style={{ width: "100%" }} Icon={CheckIcon}>Log this Weight</Button>
             </FlexBox>
         )
     }
@@ -68,7 +68,7 @@ function Diary() {
                 <Typography bold style={{ marginBottom: "20px" }}>Write a Note</Typography>
                 <Input prefix="Title" placeholder="Default: 'Note'" />
                 <TextArea placeholder="Write your note here" expandable />
-                <Button style={{ width: "100%" }} Icon={CheckIcon}>Save this Note</Button>
+                <Button style={{ width: "100%" }} Icon={CheckIcon}>Add this Note</Button>
             </FlexBox>
         )
     }
