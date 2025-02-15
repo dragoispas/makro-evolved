@@ -120,6 +120,24 @@ user-select: none;
   height:14px;
 `;
 
+const TextArea = styled.textarea<{ expandable?: boolean }>`
+width:98%;
+background-color: rgb(245, 245, 245);
+border:none;
+outline:none;
+font-size: 16px;
+padding: 1%;
+resize:none;
+field-sizing: ${({ expandable }) => (expandable ? `content` : ``)};
+  min-height: ${({ expandable }) => (expandable ? `100px` : ``)};
+  max-height: ${({ expandable }) => (expandable ? `100%` : ``)};
+
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+`
+
 const InputBase = styled.input`
   border: none;
   background-color: inherit;
@@ -128,7 +146,7 @@ const InputBase = styled.input`
   font-size: 16px;
   padding: 5px;
   width:100%;
-
+  
   ::selection {
     background-color: rgb(215, 215, 215);
 
@@ -162,6 +180,8 @@ const InputBase = styled.input`
   }
   
 `;
+
+
 
 interface TypographyProps {
   bold?: boolean;
@@ -223,4 +243,4 @@ const SearchItem = styled(FlexBox)`
 
 
 
-export { FlexBox, ButtonBase, Paper, Paper2, InputBase, InputWrapper, Prefix, Typography, ScrollableBox, SearchItem };
+export { FlexBox, ButtonBase, Paper, Paper2, InputBase, InputWrapper, Prefix, Typography, ScrollableBox, SearchItem, TextArea };

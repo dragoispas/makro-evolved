@@ -8,16 +8,18 @@ import { Dashboard, Diary, Foods, Profile, Trends } from './Components/Pages'
 
 function App() {
   return (
-    <FlexBox>
+    <FlexBox >
       <LeftMenu />
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/Dashboard' element={<Dashboard />} />
-        <Route path='/Diary' element={<Diary />} />
-        <Route path='/Foods' element={<Foods />} />
-        <Route path='/Trends' element={<Trends />} />
-        <Route path='/Profile' element={<Profile />} />
-      </Routes>
+      <div style={{ width: "90%", paddingLeft: "80px" }}>
+        <Routes>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/Dashboard' element={<Dashboard />} />
+          <Route path='/Diary' element={<Diary />} />
+          <Route path='/Foods' element={<Foods />} />
+          <Route path='/Trends' element={<Trends />} />
+          <Route path='/Profile' element={<Profile />} />
+        </Routes>
+      </div>
       {/* <FlexBox width='100vw' height='70px' align='center' style={{ borderBottom: "1px solid lightgrey", fontSize: "24px", paddingLeft: "30px" }}>Dashboard</FlexBox> */}
     </FlexBox>
   );

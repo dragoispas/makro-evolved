@@ -1,4 +1,4 @@
-import { FlexBox, Paper, Paper2, ScrollableBox, SearchItem, Typography } from "../../styledComponents";
+import { FlexBox, Paper, Paper2, ScrollableBox, SearchItem, TextArea, Typography } from "../../styledComponents";
 import Button from "../Button";
 import { ReactComponent as AppleIcon } from '../../icons/apple.svg';
 import { ReactComponent as ScaleIcon } from '../../icons/scale.svg';
@@ -9,8 +9,10 @@ import FoodDiary from "../FoodDiary";
 import { useEffect, useState } from "react";
 import Drawer from "../Drawer";
 import Input from "../Input";
-import { ReactComponent as SearchIcon } from "../../icons/search.svg";
+import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
+import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import SearchInputBox from "../SearchInputBox";
+import WeightChart from "../WeightChart";
 
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -29,33 +31,49 @@ function Diary() {
     const renderLogFood = () => {
         return (
             <FlexBox column align="center" gap="l" width="100%" height="100%">
-                <Typography bold>Add Food to Diary</Typography>
+                <Typography bold style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
                 <SearchInputBox />
-                <Typography bold>Test item</Typography>
-                <FlexBox gap="m">
-                    <Input prefix="Quantity (g)" />
-                    <Input type="time" prefix="Timestamp" />
+
+                <FlexBox column width="95%" gap="xl" >
+
+                    <FlexBox column>
+                        <Typography bold>Test item</Typography>
+                        <Typography size="s" color="grey">{"(12 protein, 4 fat, 102.5 carbohydrates, 346 calories)"}</Typography>
+                    </FlexBox>
+                    <FlexBox gap="m">
+                        <Input prefix="Quantity (g)" />
+                        <Input type="time" prefix="Timestamp" />
+                    </FlexBox>
+                    <FlexBox column>
+                        <Button Icon={CheckIcon}>Add to Diary</Button>
+                        <Button Icon={DeleteIcon} >Discard</Button>
+                    </FlexBox>
                 </FlexBox>
-                <Button style={{ width: "60%" }}>Add to Diary</Button>
             </FlexBox>
         )
     }
     const renderLogWeight = () => {
         return (
-            <FlexBox column align="center" gap="xxl" width="100%" height="100%">
-                <FlexBox>** Graph with recent weight changes **</FlexBox>
-                <Input prefix="Weight" type="number" />
-                <Button square selected style={{ width: "60%" }}>Save</Button>
+            <FlexBox column align="center" gap="l" width="100%" height="100%">
+                <Typography bold style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
+                <WeightChart />
+                <Input prefix="Weight (kg)" type="number" />
+                <Button style={{ width: "100%" }} Icon={CheckIcon}>Save Weight</Button>
             </FlexBox>
         )
     }
     const renderAddNote = () => {
         return (
-            <FlexBox align="center" >Add Note</FlexBox>
+            <FlexBox column align="center" gap="l" width="100%" height="100%">
+                <Typography bold style={{ marginBottom: "20px" }}>Write a Note</Typography>
+                <Input prefix="Title" placeholder="Default: 'Note'" />
+                <TextArea placeholder="Write your note here" expandable />
+                <Button style={{ width: "100%" }} Icon={CheckIcon}>Save this Note</Button>
+            </FlexBox>
         )
     }
     return (
-        <FlexBox column width='calc(100vw - 80px)'>
+        <FlexBox column width='100%'>
             <FlexBox height='70px' align='center' style={{ borderBottom: "1px solid lightgrey", fontSize: "24px", paddingLeft: "30px" }}>Diary</FlexBox>
             <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >{drawerContent}</Drawer>
             <div style={{ margin: "20px" }}>

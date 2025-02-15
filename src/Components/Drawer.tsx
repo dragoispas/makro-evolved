@@ -20,7 +20,7 @@ const Drawer = ({ isOpen, setOpen, children }: Props) => {
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    background: "rgba(0, 0, 0, 0.2)",
+                    background: "rgba(0, 0, 0, 0.15)",
                     transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out",
                     opacity: isOpen ? 1 : 0,
                     visibility: isOpen ? "visible" : "hidden",
@@ -29,9 +29,10 @@ const Drawer = ({ isOpen, setOpen, children }: Props) => {
             />
 
             {/* Drawer Content */}
-            <FlexBox
-                column
+            <div
                 style={{
+                    display: "flex",
+                    flexDirection: "column",
                     position: "fixed",
                     top: 0,
                     right: 0,
@@ -49,7 +50,7 @@ const Drawer = ({ isOpen, setOpen, children }: Props) => {
             >
                 <Button Icon={CloseIcon} onClick={() => setOpen(false)} style={{ alignSelf: "flex-end" }} />
                 <FlexBox style={{ padding: "10px 10px 30px 10px", height: "100%" }}>{children}</FlexBox>
-            </FlexBox>
+            </div>
         </>
     );
 };

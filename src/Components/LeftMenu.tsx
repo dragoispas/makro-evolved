@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 function LeftMenu() {
     return (
-        <FlexBox column height='100vh' align='center' justify='space-between' style={{ borderRight: "1px solid lightgrey", padding: "0px 15px 0px 15px" }}>
+        <FlexBox column height='100vh' align='center' justify='space-between' style={{ position: "fixed", borderRight: "1px solid lightgrey", padding: "0px 15px 0px 15px" }}>
             <FlexBox column align='center' gap='xl'>
                 <FlexBox align='center' justify='center' height='70px' width='100%'>
                     {/* <ButtonBase><MenuIcon width="35px" height="35px" fill='black' stroke='black'></MenuIcon></ButtonBase> */}
