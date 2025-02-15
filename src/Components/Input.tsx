@@ -1,5 +1,45 @@
 import { useRef, useState } from "react";
-import { FlexBox, InputBase, InputWrapper, Prefix } from "../styledComponents"
+import { FlexBox, InputBase } from "../styledComponents"
+import styled from "styled-components";
+
+const InputWrapper = styled.div<{ focus?: boolean }>`
+  display:flex;
+  flex-direction: column;
+  align-items:flex-start;
+  gap: 12px; 
+  width:100%;
+  
+  background-color: rgb(245, 245, 245);
+  // padding: 5px;
+  border-bottom: 1px solid rgb(109, 109, 109);
+  transition: border-bottom 0.1s ease;
+  cursor: text;
+
+  &:hover {
+    border-bottom: 1px solid black;
+    }
+
+  ${({ focus }) => (focus && `border-bottom: 1px solid black;`)}
+
+  svg {
+    width: 26px;
+    height: 26px;
+    fill: grey;
+    stroke: black;
+    transition: fill 0.1s ease, stroke 0.1s ease;
+    padding: 5px;
+  }
+`;
+
+
+const Prefix = styled.div<{ focus?: boolean }>`
+user-select: none;
+  font-size: 14px;
+  font-weight: 400;
+  transform: translate(5px, 5px);
+  color: ${({ focus }) => (focus ? `black` : `rgb(73, 73, 73);`)};
+  height:14px;
+`;
 
 interface Props {
     prefix?: string;

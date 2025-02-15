@@ -1,5 +1,12 @@
-import { FlexBox, Paper, Paper2 } from "../styledComponents"
+import styled from "styled-components";
+import { FlexBox, Paper, Interactable, Typography, PaperHeader } from "../styledComponents"
 import { differenceInMinutes, format, isSameHour } from "date-fns"
+
+const FoodDiaryContainer = styled(Paper)`
+    flex-direction: column;
+    margin-top: 14px;
+    min-width: 300px;
+`
 
 const testItems = [
     {
@@ -94,6 +101,7 @@ const testItems = [
     }
 ];
 
+
 const FoodDiary = () => {
     if (!testItems.length) return null;
 
@@ -104,13 +112,18 @@ const FoodDiary = () => {
         const itemTime = new Date(item.time);
         console.log(itemTime)
 
+        if (lastTime && differenceInMinutes(itemTime, lastTime) > 30) {
+            groupedItems.push(
+                <div></div>
+            )
+        }
+
         if (!lastTime || differenceInMinutes(itemTime, lastTime) > 30) {
-            // Display new timestamp when time gap is more than 30 minutes
             lastTime = itemTime;
             groupedItems.push(
-                <div key={`time-${index}`} style={{ fontWeight: "bold", color: "grey", marginTop: "8px" }}>
+                <PaperHeader key={`time-${index}`} >
                     {format(itemTime, "HH:mm")}
-                </div>
+                </PaperHeader>
             );
         }
 
@@ -118,24 +131,23 @@ const FoodDiary = () => {
             return ` (${item.protein} protein, ${item.fat} fat, ${item.carbohydrates} carbohydrates, ${item.calories} calories)`
         }
 
-        // Display food item
         groupedItems.push(
-            <Paper2 column gap="xs" style={{ fontSize: "14px", padding: "16px" }} key={`item-${index}`}>
-                <FlexBox gap="s" justify="space-between" style={{ width: "100%" }}>
-                    <div>{item.name}</div>
+            <Interactable key={`item-${index}`}>
+                <FlexBox justify="space-between">
+                    <Typography bolder size="s">{item.name}</Typography>
                     <FlexBox gap="s">
-                        <div style={{ fontWeight: "400", color: "grey" }}>{getMakros()}</div>
-                        <div>{item.weight} g</div>
+                        <Typography color="grey" size="s">{getMakros()}</Typography>
+                        <Typography bolder size="s">{item.weight} g</Typography>
                     </FlexBox>
                 </FlexBox>
-            </Paper2>
+            </Interactable>
         );
     });
 
     return (
-        <Paper column gap="l" style={{ marginTop: "14px", minWidth: "300px" }}>
+        <FoodDiaryContainer gap="l">
             {groupedItems}
-        </Paper>
+        </FoodDiaryContainer>
     );
 };
 

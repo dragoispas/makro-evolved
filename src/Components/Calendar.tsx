@@ -80,8 +80,8 @@ function Calendar() {
 
 
     return (
-        <FlexBox column align="flex-start" width="271px">
-            <FlexBox align="center" justify="space-between" style={{ width: "100%", fontWeight: "bold" }}>
+        <FlexBox column align="flex-start" width="275px">
+            <FlexBox align="center" justify="space-between" width="100%" >
                 <Button Icon={CalendarIcon} >{getSelectedDate()}</Button>
                 <FlexBox>
                     <Button onClick={() => setSelectedDate(prev => subDays(prev, 1))} Icon={BackIcon}></Button>

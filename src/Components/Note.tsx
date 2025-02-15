@@ -1,4 +1,4 @@
-import { FlexBox, Paper, Paper2 } from "../styledComponents";
+import { FlexBox, Paper, Interactable, PaperHeader, Typography } from "../styledComponents";
 
 interface Props {
     title?: string;
@@ -8,11 +8,15 @@ interface Props {
 const Note: React.FC<Props> = ({ title, children }) => {
     return (
         <Paper column gap="l" style={{ marginTop: "14px" }}>
-            <div style={{ fontWeight: "bold", color: "grey" }}>
+            <PaperHeader>
                 {title ?? "Note"}
-            </div>
+            </PaperHeader>
 
-            <Paper2> {children}</Paper2>
+            <Interactable>
+                <Typography bolder>
+                    {children}
+                </Typography>
+            </Interactable>
         </Paper>
     )
 }

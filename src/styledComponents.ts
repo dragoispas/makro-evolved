@@ -36,10 +36,17 @@ const Paper = styled(FlexBox)`
   padding: 20px;
 `
 
-const Paper2 = styled(FlexBox)`
+const PaperHeader = styled.div`
+font-weight: bold; 
+color: grey; 
+`
+
+const Interactable = styled.button`
+  border: none;
+  outline: none;
   border-radius: 10px;
   background-color:white; 
-  padding: 20px;
+  padding: 16px;
   transition: box-shadow 0.2s ease; 
   font-weight: 500;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -81,44 +88,7 @@ const ButtonBase = styled.button<{ highlighted?: boolean, square?: boolean }>`
   }
 `;
 
-const InputWrapper = styled.div<{ focus?: boolean }>`
-  display:flex;
-  flex-direction: column;
-  align-items:flex-start;
-  gap: 12px; 
-  width:100%;
-  
-  background-color: rgb(245, 245, 245);
-  // padding: 5px;
-  border-bottom: 1px solid rgb(109, 109, 109);
-  transition: border-bottom 0.1s ease;
-  cursor: text;
 
-  &:hover {
-    border-bottom: 1px solid black;
-    }
-
-  ${({ focus }) => (focus && `border-bottom: 1px solid black;`)}
-
-  svg {
-    width: 26px;
-    height: 26px;
-    fill: grey;
-    stroke: black;
-    transition: fill 0.1s ease, stroke 0.1s ease;
-    padding: 5px;
-  }
-`;
-
-
-const Prefix = styled.div<{ focus?: boolean }>`
-user-select: none;
-  font-size: 14px;
-  font-weight: 400;
-  transform: translate(5px, 5px);
-  color: ${({ focus }) => (focus ? `black` : `rgb(73, 73, 73);`)};
-  height:14px;
-`;
 
 const TextArea = styled.textarea<{ expandable?: boolean }>`
 width:98%;
@@ -156,18 +126,6 @@ const InputBase = styled.input`
     background-color: rgb(215, 215, 215); /* Hide default blue selection */
   }
 
-  // &::-webkit-datetime-edit {
-  //   color: inherit;
-  // }
-
-  // &::-webkit-datetime-edit-fields-wrapper {
-  //   background-color: inherit;
-  // }
-
-  // &::-webkit-datetime-edit-text {
-  //   background-color: inherit;
-  // }
-
 &::-webkit-datetime-edit-month-field:focus,
   &::-webkit-datetime-edit-day-field:focus,
   &::-webkit-datetime-edit-year-field:focus,
@@ -185,6 +143,7 @@ const InputBase = styled.input`
 
 interface TypographyProps {
   bold?: boolean;
+  bolder?: boolean;
   size?: 'xs' | 's' | 'm' | 'l' | 'xl';  // Predefined sizes
   align?: 'left' | 'center' | 'right';  // Text alignment
   color?: string;  // Color for the text
@@ -192,6 +151,7 @@ interface TypographyProps {
 
 const Typography = styled.div<TypographyProps>`
   font-weight: ${({ bold }) => (bold ? 500 : 400)};
+  font-weight: ${({ bolder }) => (bolder ? 600 : 400)};
   font-size: ${({ size }) => {
     switch (size) {
       case 'xs':
@@ -212,35 +172,18 @@ const Typography = styled.div<TypographyProps>`
   color: ${({ color }) => color || 'black'};  // Default to 'black' if not provided
 `;
 
-const ScrollableBox = styled(FlexBox)`
-  height: 300px;  /* Fixed height */
-  width: 100%;
-  overflow-y: auto; /* Enable scrolling */
-  // border-bottom: 1px solid #ccc; /* Optional: for visibility */
-  background-color: rgb(245, 245, 245);
-  padding: 5px;
-  
 
-`;
-
-const SearchItem = styled(FlexBox)`
-  background-color: rgb(255, 255, 255);
-  
-   padding: 8px;
-   border-radius: 4px;
-   cursor: pointer;
-   transition: box-shadow 0.1s ease;
-   background-color: rgb(255, 255, 255);
-
-    box-shadow: 0 0 6px rgba(172, 172, 172, 0.1);
-
-   &:hover {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    }
+const PageHeader = styled.div`
+  border-bottom: 1px solid lightgrey;
+  padding: 20px 30px;
+  font-size: 24px;
+  width:100vw;
+`
+const PageBody = styled.div`
+  margin: 20px;
 `
 
 
 
 
-
-export { FlexBox, ButtonBase, Paper, Paper2, InputBase, InputWrapper, Prefix, Typography, ScrollableBox, SearchItem, TextArea };
+export { FlexBox, ButtonBase, Paper, PaperHeader, Interactable, InputBase, Typography, TextArea, PageHeader, PageBody };

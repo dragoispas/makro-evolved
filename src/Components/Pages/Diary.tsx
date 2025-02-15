@@ -1,4 +1,4 @@
-import { FlexBox, Paper, Paper2, ScrollableBox, SearchItem, TextArea, Typography } from "../../styledComponents";
+import { FlexBox, PageBody, PageHeader, TextArea, Typography } from "../../styledComponents";
 import Button from "../Button";
 import { ReactComponent as AppleIcon } from '../../icons/apple.svg';
 import { ReactComponent as ScaleIcon } from '../../icons/scale.svg';
@@ -66,17 +66,17 @@ function Diary() {
         return (
             <FlexBox column align="center" gap="l" width="100%" height="100%">
                 <Typography bold style={{ marginBottom: "20px" }}>Write a Note</Typography>
-                <Input prefix="Title" placeholder="Default: 'Note'" />
+                <Input prefix="Title" placeholder="Note" />
                 <TextArea placeholder="Write your note here" expandable />
                 <Button style={{ width: "100%" }} Icon={CheckIcon}>Add this Note</Button>
             </FlexBox>
         )
     }
     return (
-        <FlexBox column width='100%'>
-            <FlexBox height='70px' align='center' style={{ borderBottom: "1px solid lightgrey", fontSize: "24px", paddingLeft: "30px" }}>Diary</FlexBox>
+        <>
+            <PageHeader>Diary</PageHeader>
             <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >{drawerContent}</Drawer>
-            <div style={{ margin: "20px" }}>
+            <PageBody>
                 <Calendar />
                 <FlexBox>
                     <Button onClick={() => openDrawer("LogFood")} Icon={AppleIcon}>Log Food</Button>
@@ -85,8 +85,8 @@ function Diary() {
                 </FlexBox>
                 <FoodDiary />
                 <Note>Today I fucked my cat and it was wonderful, it felt so tight and I came so fast that it didn't even have time to scratch me that bad. <br></br><br></br>Today I also realised that I am gay.</Note>
-            </div>
-        </FlexBox>
+            </PageBody>
+        </>
     )
 }
 
