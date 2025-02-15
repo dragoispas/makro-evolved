@@ -110,7 +110,6 @@ const FoodDiary = () => {
 
     testItems.forEach((item, index) => {
         const itemTime = new Date(item.time);
-        console.log(itemTime)
 
         if (lastTime && differenceInMinutes(itemTime, lastTime) > 30) {
             groupedItems.push(

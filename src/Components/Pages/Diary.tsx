@@ -13,69 +13,53 @@ import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import SearchInputBox from "../SearchInputBox";
 import WeightChart from "../WeightChart";
+import FoodForm from "../FoodForm";
+import { Product } from "../../types";
 
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [drawerContent, setDrawerContent] = useState<React.ReactNode | null>();
+    const [drawerContent, setDrawerContent] = useState<string | null>();
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     const openDrawer = (content: string) => {
-
         setIsDrawerOpen(true)
-        console.log(isDrawerOpen)
-
-        if (content === "LogFood") setDrawerContent(renderLogFood());
-        if (content === "LogWeight") setDrawerContent(renderLogWeight());
-        if (content === "AddNote") setDrawerContent(renderAddNote());
+        setDrawerContent(content);
     }
 
-    const renderLogFood = () => {
-        return (
-            <FlexBox column align="center" gap="l" width="100%" height="100%">
-                <Typography bold style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
-                <SearchInputBox />
-
-                <FlexBox column width="95%" gap="xl" >
-
-                    <FlexBox column>
-                        <Typography bold>Test item</Typography>
-                        <Typography size="s" color="grey">{"(12 protein, 4 fat, 102.5 carbohydrates, 346 calories)"}</Typography>
-                    </FlexBox>
-                    <FlexBox gap="m">
-                        <Input prefix="Quantity (g)" />
-                        <Input type="time" prefix="Timestamp" />
-                    </FlexBox>
-                    <FlexBox column>
-                        <Button Icon={CheckIcon}>Add to Diary</Button>
-                        <Button Icon={DeleteIcon} >Discard</Button>
-                    </FlexBox>
+    const renderDrawerContent = () => {
+        if (drawerContent === "LogFood") {
+            return (
+                <FlexBox column align="center" gap="l" width="100%" height="100%">
+                    <Typography bolder style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
+                    <SearchInputBox expanded={!selectedProduct} onSetSelectedProduct={setSelectedProduct} />
+                    {selectedProduct && <FoodForm product={selectedProduct} discardProduct={() => setSelectedProduct(null)} />}
                 </FlexBox>
-            </FlexBox>
-        )
+            )
+        } else if (drawerContent === "LogWeight") {
+            return (
+                <FlexBox column align="center" gap="l" width="100%" height="100%">
+                    <Typography bolder style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
+                    <WeightChart />
+                    <Input prefix="Weight (kg)" type="number" />
+                    <Button style={{ width: "100%" }} Icon={CheckIcon}>Log this Weight</Button>
+                </FlexBox>
+            )
+        } else if (drawerContent === "AddNote") {
+            return (
+                <FlexBox column align="center" gap="l" width="100%" height="100%">
+                    <Typography bolder style={{ marginBottom: "20px" }}>Write a Note</Typography>
+                    <Input prefix="Title" placeholder="Note" />
+                    <TextArea placeholder="Write your note here" expandable />
+                    <Button style={{ width: "100%" }} Icon={CheckIcon}>Add this Note</Button>
+                </FlexBox>
+            )
+        }
     }
-    const renderLogWeight = () => {
-        return (
-            <FlexBox column align="center" gap="l" width="100%" height="100%">
-                <Typography bold style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
-                <WeightChart />
-                <Input prefix="Weight (kg)" type="number" />
-                <Button style={{ width: "100%" }} Icon={CheckIcon}>Log this Weight</Button>
-            </FlexBox>
-        )
-    }
-    const renderAddNote = () => {
-        return (
-            <FlexBox column align="center" gap="l" width="100%" height="100%">
-                <Typography bold style={{ marginBottom: "20px" }}>Write a Note</Typography>
-                <Input prefix="Title" placeholder="Note" />
-                <TextArea placeholder="Write your note here" expandable />
-                <Button style={{ width: "100%" }} Icon={CheckIcon}>Add this Note</Button>
-            </FlexBox>
-        )
-    }
+
     return (
         <>
             <PageHeader>Diary</PageHeader>
-            <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >{drawerContent}</Drawer>
+            <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >{renderDrawerContent()}</Drawer>
             <PageBody>
                 <Calendar />
                 <FlexBox>

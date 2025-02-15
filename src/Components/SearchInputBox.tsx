@@ -2,8 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as SearchIcon } from "../icons/search.svg";
 import Input from "./Input";
-
-const testData = Array(30).fill("Test Item");
+import { Product } from "../types";
+import { mockProducts } from "../mockData";
 
 const StyledSearchBox = styled.div`
   width: 95%;
@@ -15,11 +15,12 @@ const StyledSearchBox = styled.div`
   padding-bottom: 20px;
 `;
 
-const ListContainer = styled.div`
+const ListContainer = styled.div<{ expanded?: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: 450px;
+  transition: height 0.1s ease;
+  height: ${({ expanded }) => expanded ? `675px` : `450px`};
   overflow-y: auto;
   border: 1px solid lightgrey;
   border-radius: 10px;
@@ -81,10 +82,11 @@ const Button = styled.button<{ selected: boolean }>`
 
 interface ButtonsProps {
   options: string[];
+  selected: string;
+  setSelected: (option: string) => void;
 }
 
-const SelectableButtons = ({ options }: ButtonsProps) => {
-  const [selected, setSelected] = useState<string | null>(null);
+const SelectableButtons = ({ options, selected, setSelected }: ButtonsProps) => {
 
   return (
     <ButtonGroup>
@@ -97,16 +99,26 @@ const SelectableButtons = ({ options }: ButtonsProps) => {
   );
 };
 
-const SearchInputBox = () => {
+interface SearchInputBoxProps {
+  onSetSelectedProduct: (product: Product) => void;
+  expanded?: boolean;
+}
+const SearchInputBox = ({ onSetSelectedProduct, expanded }: SearchInputBoxProps) => {
+  const [category, setCategory] = useState<string>("All")
+  const [searchInput, setSearchInput] = useState<string>("");
+
+  const filteredProducts = mockProducts.map((item, index) => {
+    if (item.name.includes(searchInput)) {
+      return <ListItem onClick={() => onSetSelectedProduct(item)} key={index}>{item.name}</ListItem>
+    }
+  })
 
   return (
     <StyledSearchBox>
-      <Input Icon={SearchIcon} />
-      <SelectableButtons options={["All", "Common", "Custom", "Favorites"]} />
-      <ListContainer>
-        {testData.map((item, index) => (
-          <ListItem key={index}>{item}</ListItem>
-        ))}
+      <Input value={searchInput} onChange={e => setSearchInput(e.target.value)} Icon={SearchIcon} />
+      <SelectableButtons selected={category} setSelected={setCategory} options={["All", "Common", "Custom", "Favorites"]} />
+      <ListContainer expanded={expanded}>
+        {filteredProducts}
       </ListContainer>
     </StyledSearchBox>
   );

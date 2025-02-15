@@ -46,16 +46,16 @@ interface Props {
     placeholder?: string;
     type?: React.HTMLInputTypeAttribute;
     Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = ({ prefix, placeholder, type, Icon }: Props) => {
+const Input = ({ prefix, placeholder, type = "text", Icon, value, onChange }: Props) => {
     const [focus, setFocus] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     return (
-        <InputWrapper
-            focus={focus} onClick={() => inputRef.current?.focus()}
-        >
+        <InputWrapper focus={focus} onClick={() => inputRef.current?.focus()}>
             {prefix && <Prefix focus={focus}>{prefix}</Prefix>}
             <FlexBox gap="xs" width="100%">
                 {Icon && <Icon />}
@@ -65,6 +65,9 @@ const Input = ({ prefix, placeholder, type, Icon }: Props) => {
                     type={type}
                     ref={inputRef}
                     placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    min={0} // currently all number inputs must be greater than 0
                 />
             </FlexBox>
         </InputWrapper>

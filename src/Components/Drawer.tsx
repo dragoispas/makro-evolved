@@ -9,7 +9,6 @@ interface Props {
     children?: React.ReactNode;
 }
 
-// Styled Components
 const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
