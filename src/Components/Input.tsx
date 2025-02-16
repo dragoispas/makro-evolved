@@ -48,9 +48,10 @@ interface Props {
     Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     value?: string;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    disabled?: boolean;
 }
 
-const Input = ({ prefix, placeholder, type = "text", Icon, value, onChange }: Props) => {
+const Input = ({ prefix, placeholder, type = "text", Icon, value, onChange, disabled }: Props) => {
     const [focus, setFocus] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -67,6 +68,7 @@ const Input = ({ prefix, placeholder, type = "text", Icon, value, onChange }: Pr
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
+                    disabled={disabled}
                     min={0} // currently all number inputs must be greater than 0
                 />
             </FlexBox>

@@ -67,8 +67,9 @@ const ButtonBase = styled.button<{ highlighted?: boolean, square?: boolean }>`
   font-size: 14px;
   transition: background-color 0.1s ease; 
 
-  &:hover {
-    ${({ highlighted }) => !highlighted && "background-color: rgb(245, 245, 245); color: black;"}
+ &:hover {
+    ${({ highlighted, disabled }) =>
+    !highlighted && !disabled && "background-color: rgb(245, 245, 245); color: black;"}
   }
 
   ${({ highlighted }) =>
@@ -78,12 +79,14 @@ const ButtonBase = styled.button<{ highlighted?: boolean, square?: boolean }>`
     color: white;
     padding: 8px;
   `}
-
+  ${({ disabled }) => disabled && 'cursor: auto;'}
   svg {
     width: 30px;
     height: 30px;
-    fill: ${({ highlighted }) => (highlighted ? "white" : "black")};
-    stroke: ${({ highlighted }) => (highlighted ? "white" : "black")};
+    fill: ${({ highlighted, disabled }) =>
+    disabled ? "grey" : highlighted ? "white" : "black"};
+    stroke: ${({ highlighted, disabled }) =>
+    disabled ? "grey" : highlighted ? "white" : "black"};
     transition: fill 0.1s ease, stroke 0.1s ease;
   }
 `;

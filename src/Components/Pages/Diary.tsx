@@ -33,7 +33,8 @@ function Diary() {
                 <FlexBox column align="center" gap="l" width="100%" height="100%">
                     <Typography bolder style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
                     <SearchInputBox expanded={!selectedProduct} onSetSelectedProduct={setSelectedProduct} />
-                    {selectedProduct && <FoodForm product={selectedProduct} discardProduct={() => setSelectedProduct(null)} />}
+                    {/* {selectedProduct && } */}
+                    <FoodForm product={selectedProduct} discardProduct={() => setSelectedProduct(null)} />
                 </FlexBox>
             )
         } else if (drawerContent === "LogWeight") {

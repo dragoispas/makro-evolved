@@ -5,31 +5,52 @@ import { ReactComponent as DeleteIcon } from "../icons/delete.svg";
 import { ReactComponent as CheckIcon } from "../icons/check.svg";
 import { Product } from "../types";
 import { useRef, useState } from "react";
+import styled from "styled-components";
+
+const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
+  transition: opacity 0.1s ease, visibility 0.1s ease; /* Delay hiding */
+
+  ${({ enabled }) =>
+        enabled
+            ? `
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: none;
+      `
+            : `
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      `}
+`;
+
+
 
 interface Props {
-    product: Product;
+    product: Product | null;
     discardProduct: () => void;
 }
 
 const FoodForm = ({ product, discardProduct }: Props) => {
-    const [quantity, setQuantity] = useState<number>(0);
+    const [quantity, setQuantity] = useState<number>();
 
 
     return (
-        <FlexBox column width="95%" gap="xl" >
+        <FormContainer enabled={!!product} column width="95%" gap="xl" >
             <FlexBox column>
-                <Typography bolder>{product.name}</Typography>
-                <Typography size="s" color="grey">{quantity ? `(${(product.macronutrients.protein * quantity / 100).toFixed(1)} protein, ${(product.macronutrients.fat * quantity / 100).toFixed(1)} fat, ${(product.macronutrients.carbohydrates * quantity / 100).toFixed(1)} carbohydrates, ${(product.calories * quantity / 100).toFixed(1)} calories)` : '(0 protein, 0 fat, 0 carbohydrates, 0 calories)'}</Typography>
+                <Typography bolder>{product ? product.name : "No product"}</Typography>
+                <Typography size="s" color="grey">{quantity && product ? `(${(product.macronutrients.protein * quantity / 100).toFixed(1)} protein, ${(product.macronutrients.fat * quantity / 100).toFixed(1)} fat, ${(product.macronutrients.carbohydrates * quantity / 100).toFixed(1)} carbohydrates, ${(product.calories * quantity / 100).toFixed(1)} calories)` : '(0 protein, 0 fat, 0 carbohydrates, 0 calories)'}</Typography>
             </FlexBox>
             <FlexBox gap="m">
-                <Input value={quantity?.toString()} onChange={(e) => setQuantity(parseFloat(e.target.value))} prefix="Quantity (g)" type="number" />
-                <Input type="time" prefix="Timestamp" />
+                <Input disabled={!product} value={quantity?.toString()} onChange={(e) => setQuantity(parseFloat(e.target.value))} prefix="Quantity (g)" type="number" />
+                <Input disabled={!product} type="time" prefix="Timestamp" />
             </FlexBox>
             <FlexBox column>
-                <Button Icon={CheckIcon}>Add to Diary</Button>
-                <Button Icon={DeleteIcon} onClick={discardProduct}>Discard</Button>
+                <Button disabled={!product} Icon={CheckIcon}>Add to Diary</Button>
+                <Button disabled={!product} Icon={DeleteIcon} onClick={discardProduct}>Discard</Button>
             </FlexBox>
-        </FlexBox>
+        </FormContainer>
     )
 }
 

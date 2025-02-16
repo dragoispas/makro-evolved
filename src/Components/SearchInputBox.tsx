@@ -11,7 +11,6 @@ const StyledSearchBox = styled.div`
   flex-direction: column;
   border-radius: 10px;
   gap: 10px;
-  transition: box-shadow 0.3s ease-in-out;
   padding-bottom: 20px;
 `;
 
