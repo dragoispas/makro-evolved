@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { FlexBox } from "../styledComponents";
-import Button from "./Button";
+import { FlexBox } from "../../styledComponents";
+import Button from "../Button";
 import { ReactComponent as CloseIcon } from "../icons/close.svg";
 
 interface Props {
-    isOpen: boolean;
-    setOpen: (open: boolean) => void;
-    children?: React.ReactNode;
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
+  children?: React.ReactNode;
 }
 
 const Overlay = styled.div<{ isOpen: boolean }>`
@@ -45,15 +45,15 @@ const Content = styled(FlexBox)`
 `;
 
 const Drawer = ({ isOpen, setOpen, children }: Props) => {
-    return (
-        <>
-            <Overlay isOpen={isOpen} onClick={() => setOpen(false)} />
-            <DrawerContainer isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
-                <Button Icon={CloseIcon} onClick={() => setOpen(false)} style={{ alignSelf: "flex-end" }} />
-                <Content>{children}</Content>
-            </DrawerContainer>
-        </>
-    );
+  return (
+    <>
+      <Overlay isOpen={isOpen} onClick={() => setOpen(false)} />
+      <DrawerContainer isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
+        <Button Icon={CloseIcon} onClick={() => setOpen(false)} style={{ alignSelf: "flex-end" }} />
+        <Content>{children}</Content>
+      </DrawerContainer>
+    </>
+  );
 };
 
 export default Drawer;

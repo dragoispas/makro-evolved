@@ -7,10 +7,10 @@ import Calendar from "../Calendar";
 import Note from "../Note";
 import FoodDiary from "../FoodDiary";
 import { useEffect, useState } from "react";
-import Drawer from "../Drawer";
+import Drawer from "../Drawer/Drawer";
 import { FoodEntry, NoteEntry, Product } from "../../types";
 import { mockFoodEntries, mockNoteEntry, mockNoteEntries } from "../../mockData";
-import DrawerContent from "../DrawerContent";
+import DrawerContent from "../Drawer/DrawerContent";
 
 const emptyNoteEntry: NoteEntry = { id: -1, title: "", content: "" };
 
