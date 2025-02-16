@@ -37,7 +37,7 @@ function Diary() {
         <>
             <PageHeader>Diary</PageHeader>
             <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >
-                <DrawerContent drawerContent={drawerContent} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} noteEntry={selectedNoteEntry || emptyNoteEntry} noteEntries={noteEntries} setNoteEntries={setNoteEntries} />
+                <DrawerContent closeDrawer={() => setIsDrawerOpen(false)} drawerContent={drawerContent} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} noteEntry={selectedNoteEntry || emptyNoteEntry} noteEntries={noteEntries} setNoteEntries={setNoteEntries} />
             </Drawer>
             <PageBody>
                 <Calendar />

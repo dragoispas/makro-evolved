@@ -5,11 +5,13 @@ import Input from "./Input";
 import SearchInputBox from "./SearchInputBox";
 import WeightChart from "./WeightChart";
 import { ReactComponent as CheckIcon } from "../icons/check.svg";
+import { ReactComponent as DeleteIcon } from "../icons/delete.svg";
 import { NoteEntry, Product } from "../types";
 import { useEffect, useState } from "react";
 
 interface Props {
     drawerContent: string | null;
+    closeDrawer: () => void;
     selectedProduct?: Product | null;
     setSelectedProduct?: (product: Product | null) => void;
     noteEntry: NoteEntry;
@@ -18,7 +20,7 @@ interface Props {
 
 }
 
-const DrawerContent = ({ drawerContent, selectedProduct, setSelectedProduct, noteEntry, noteEntries, setNoteEntries }: Props) => {
+const DrawerContent = ({ drawerContent, closeDrawer, selectedProduct, setSelectedProduct, noteEntry, noteEntries, setNoteEntries }: Props) => {
     const [currentNote, setCurrentNote] = useState<NoteEntry>(noteEntry || { id: -1, content: "" })
 
     useEffect(() => {
@@ -30,7 +32,7 @@ const DrawerContent = ({ drawerContent, selectedProduct, setSelectedProduct, not
     const onSaveNoteEntry = () => {
         if (currentNote.id < 0) {
             const newNoteEntry: NoteEntry = {
-                id: noteEntries.length + 1,
+                id: noteEntries.length + Math.random() * 1000,
                 title: currentNote.title,
                 content: currentNote.content
             }
@@ -39,6 +41,12 @@ const DrawerContent = ({ drawerContent, selectedProduct, setSelectedProduct, not
             const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
             setNoteEntries(updatedNoteEntries);
         }
+    }
+
+    const onDeleteNoteEntry = () => {
+        const updatedNoteEntries = noteEntries.filter(noteEntry => noteEntry.id !== currentNote.id)
+        setNoteEntries(updatedNoteEntries);
+        closeDrawer();
     }
 
     if (drawerContent === "LogFood" && setSelectedProduct) {
@@ -69,7 +77,10 @@ const DrawerContent = ({ drawerContent, selectedProduct, setSelectedProduct, not
                 <Typography bolder style={{ marginBottom: "20px" }}>{currentNote.id > 0 ? `Edit Note` : `Write a Note`}</Typography>
                 <Input prefix="Title" placeholder="Note" value={currentNote.title} onChange={e => setCurrentNote(prev => ({ ...prev, title: e.target.value }))} />
                 <TextArea placeholder="Write your note here" expandable value={currentNote.content} onChange={e => setCurrentNote(prev => ({ ...prev, content: e.target.value }))} />
-                <Button onClick={onSaveNoteEntry} style={{ width: "100%" }} Icon={CheckIcon}>{currentNote.id > 0 ? `Save Changes` : `Add this Note`}</Button>
+                <FlexBox column width="100%">
+                    <Button onClick={onSaveNoteEntry} style={{ width: "100%" }} Icon={CheckIcon}>{currentNote.id > 0 ? `Save Changes` : `Add this Note`}</Button>
+                    {currentNote.id >= 0 && <Button onClick={onDeleteNoteEntry} style={{ width: "100%" }} Icon={DeleteIcon}>Delete this Note</Button>}
+                </FlexBox>
             </FlexBox>
         )
     }
