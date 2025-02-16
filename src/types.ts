@@ -7,5 +7,17 @@ export type Product = {
 export type Makros = {
     protein: number,
     fat: number,
-    carbohydrates: number
+    carbohydrates: number,
+}
+
+export type FoodEntry = {
+    id: number,
+    product: Product,
+    quantity: number,
+    time: string,
+}
+
+export type Note = {
+    title?: string,
+    content: string,
 }

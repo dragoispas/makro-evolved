@@ -1,4 +1,4 @@
-import { Product } from "./types";
+import { FoodEntry, Note, Product } from "./types";
 
 export const mockProducts: Product[] = [
     { name: "Chicken Breast", calories: 165, macronutrients: { protein: 31, fat: 3.6, carbohydrates: 0 } },
@@ -32,3 +32,92 @@ But this one has two.
 
 
 Let's see if they all render correctly!`
+
+export const mockNotes: Note[] = [
+    {
+        title: "Morning Thoughts",
+        content: `Woke up feeling refreshed today. 
+
+Had a great night's sleep and ready to tackle the day!`
+    },
+    {
+        title: "Lunch Reflections",
+        content: `Tried a new recipe for grilled salmon with brown rice. 
+
+It turned out really well! Will definitely make it again.`
+    },
+    {
+        title: "Workout Log",
+        content: `Did a 30-minute strength training session. 
+
+Felt strong throughout, but I need to work on endurance. 
+
+Maybe increase reps next time?`
+    },
+    {
+        title: "Evening Wind Down",
+        content: `Feeling a bit tired after a long day.
+
+A cup of chamomile tea should help me relax before bed.`
+    },
+    {
+        title: "Random Thought",
+        content: `Why do bananas ripen so fast? 
+
+I swear I bought them yesterday and now they're almost overripe...`
+    }
+];
+
+
+export const mockFoodEntries: FoodEntry[] = [
+    {
+        id: 1,
+        product: mockProducts[16], // Banana
+        quantity: 120,
+        time: "2025-02-11T08:11:00Z"
+    },
+    {
+        id: 2,
+        product: mockProducts[15], // Apple
+        quantity: 182,
+        time: "2025-02-11T08:12:30Z"
+    },
+    {
+        id: 3,
+        product: mockProducts[17], // Avocado
+        quantity: 200,
+        time: "2025-02-11T08:19:30Z"
+    },
+    {
+        id: 4,
+        product: mockProducts[0], // Chicken Breast
+        quantity: 150,
+        time: "2025-02-11T12:30:00Z"
+    },
+    {
+        id: 5,
+        product: mockProducts[1], // Salmon
+        quantity: 154,
+        time: "2025-02-11T12:32:00Z"
+    },
+    {
+        id: 6,
+        product: mockProducts[5], // Almonds
+        quantity: 28,
+        time: "2025-02-11T15:37:00Z"
+    },
+    {
+        id: 7,
+        product: mockProducts[8], // Brown Rice
+        quantity: 200,
+        time: "2025-02-11T19:00:00Z"
+    },
+    {
+        id: 8,
+        product: mockProducts[2], // Eggs
+        quantity: 50,
+        time: "2025-02-11T19:02:00Z"
+    }
+];
+
+

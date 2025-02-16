@@ -6,63 +6,29 @@ import { ReactComponent as NoteIcon } from '../../icons/note.svg';
 import Calendar from "../Calendar";
 import Note from "../Note";
 import FoodDiary from "../FoodDiary";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Drawer from "../Drawer";
-import Input from "../Input";
-import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
-import { ReactComponent as CheckIcon } from "../../icons/check.svg";
-import SearchInputBox from "../SearchInputBox";
-import WeightChart from "../WeightChart";
-import FoodForm from "../FoodForm";
-import { Product } from "../../types";
-import { mockNote } from "../../mockData";
+import { FoodEntry, Product } from "../../types";
+import { mockFoodEntries, mockNote, mockNotes } from "../../mockData";
+import DrawerContent from "../DrawerContent";
 
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [drawerContent, setDrawerContent] = useState<string | null>();
+    const [drawerContent, setDrawerContent] = useState<string | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [foodEntries, setFoodEntries] = useState<FoodEntry[]>(mockFoodEntries)
 
     const openDrawer = (content: string) => {
         setIsDrawerOpen(true)
         setDrawerContent(content);
     }
 
-    const renderDrawerContent = () => {
-        if (drawerContent === "LogFood") {
-            return (
-                <FlexBox column align="center" gap="l" width="100%" height="100%">
-                    <Typography bolder style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
-                    <SearchInputBox expanded={!selectedProduct} onSetSelectedProduct={setSelectedProduct} />
-                    {/* {selectedProduct && } */}
-                    <FoodForm product={selectedProduct} discardProduct={() => setSelectedProduct(null)} />
-                </FlexBox>
-            )
-        } else if (drawerContent === "LogWeight") {
-            return (
-                <FlexBox column align="center" gap="l" width="100%" height="100%">
-                    <Typography bolder style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
-                    <WeightChart />
-                    <Input prefix="Weight (kg)" type="number" />
-                    <Button style={{ width: "100%" }} Icon={CheckIcon}>Log this Weight</Button>
-                </FlexBox>
-            )
-        } else if (drawerContent === "AddNote") {
-            return (
-                <FlexBox column align="center" gap="l" width="100%" height="100%">
-                    <Typography bolder style={{ marginBottom: "20px" }}>Write a Note</Typography>
-                    <Input prefix="Title" placeholder="Note" />
-                    <TextArea placeholder="Write your note here" expandable />
-                    <Button style={{ width: "100%" }} Icon={CheckIcon}>Add this Note</Button>
-                </FlexBox>
-            )
-        }
-    }
-
-
     return (
         <>
             <PageHeader>Diary</PageHeader>
-            <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >{renderDrawerContent()}</Drawer>
+            <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >
+                <DrawerContent drawerContent={drawerContent} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />
+            </Drawer>
             <PageBody>
                 <Calendar />
                 <FlexBox>
@@ -70,8 +36,8 @@ function Diary() {
                     <Button onClick={() => openDrawer("LogWeight")} Icon={ScaleIcon}>Log Weight</Button>
                     <Button onClick={() => openDrawer("AddNote")} Icon={NoteIcon}>Add Note</Button>
                 </FlexBox>
-                <FoodDiary />
-                <Note text={mockNote}></Note>
+                <FoodDiary foodEntries={foodEntries} />
+                {mockNotes.map((note) => <Note title={note.title} text={note.content}></Note>)}
             </PageBody>
         </>
     )
