@@ -2,13 +2,14 @@ import { Paper, Interactable, PaperHeader, Typography } from "../styledComponent
 
 interface Props {
     title?: string;
-    text: string
+    text: string;
+    onClick?: () => void;
 }
 
-const Note: React.FC<Props> = ({ title, text }) => {
+const Note: React.FC<Props> = ({ title, text, onClick }) => {
 
     return (
-        <Paper column gap="l" style={{ marginTop: "14px" }}>
+        <Paper onClick={onClick} column gap="l" style={{ marginTop: "14px" }}>
             <PaperHeader>
                 {title ?? "Note"}
             </PaperHeader>

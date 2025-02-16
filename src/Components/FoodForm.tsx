@@ -35,6 +35,10 @@ interface Props {
 const FoodForm = ({ product, discardProduct }: Props) => {
     const [quantity, setQuantity] = useState<number>();
 
+    const onDiscardProduct = () => {
+        setQuantity(parseFloat(""));
+        discardProduct();
+    }
 
     return (
         <FormContainer enabled={!!product} column width="95%" gap="xl" >
@@ -48,7 +52,7 @@ const FoodForm = ({ product, discardProduct }: Props) => {
             </FlexBox>
             <FlexBox column>
                 <Button disabled={!product} Icon={CheckIcon}>Add to Diary</Button>
-                <Button disabled={!product} Icon={DeleteIcon} onClick={discardProduct}>Discard</Button>
+                <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
             </FlexBox>
         </FormContainer>
     )

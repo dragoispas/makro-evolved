@@ -17,7 +17,8 @@ export type FoodEntry = {
     time: string,
 }
 
-export type Note = {
+export type NoteEntry = {
+    id: number,
     title?: string,
     content: string,
 }
