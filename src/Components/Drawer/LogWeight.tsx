@@ -2,7 +2,7 @@ import { FlexBox, Typography } from "../../styledComponents"
 import Button from "../Button"
 import Input from "../Input"
 import WeightChart from "../WeightChart"
-import { ReactComponent as CheckIcon } from "../icons/check.svg";
+import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 
 const LogWeight = () => {
     return (

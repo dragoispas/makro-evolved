@@ -3,8 +3,8 @@ import { FlexBox, Typography, TextArea } from "../../styledComponents"
 import { NoteEntry } from "../../types"
 import Button from "../Button"
 import Input from "../Input"
-import { ReactComponent as CheckIcon } from "../icons/check.svg";
-import { ReactComponent as DeleteIcon } from "../icons/delete.svg";
+import { ReactComponent as CheckIcon } from "../../icons/check.svg";
+import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 
 interface Props {
     noteEntry: NoteEntry;

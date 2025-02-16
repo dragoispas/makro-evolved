@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FlexBox } from "../../styledComponents";
 import Button from "../Button";
-import { ReactComponent as CloseIcon } from "../icons/close.svg";
+import { ReactComponent as CloseIcon } from "../../icons/close.svg";
 
 interface Props {
   isOpen: boolean;

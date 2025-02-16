@@ -1,8 +1,8 @@
 import { FlexBox, Typography } from "../../styledComponents";
 import Button from "../Button";
 import Input from "../Input";
-import { ReactComponent as DeleteIcon } from "../icons/delete.svg";
-import { ReactComponent as CheckIcon } from "../icons/check.svg";
+import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
+import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { Product } from "../../types";
 import { useRef, useState } from "react";
 import styled from "styled-components";
