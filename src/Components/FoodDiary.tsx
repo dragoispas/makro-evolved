@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { FlexBox, Paper, Interactable, Typography, PaperHeader } from "../styledComponents"
-import { differenceInMinutes, format, isSameHour } from "date-fns"
+import { differenceInMinutes, format, isSameHour, parseISO } from "date-fns"
 import { FoodEntry } from "../types";
+import { useEffect, useMemo } from "react";
 
 const FoodDiaryContainer = styled(Paper)`
     flex-direction: column;
@@ -10,16 +11,25 @@ const FoodDiaryContainer = styled(Paper)`
 `
 
 interface Props {
-    foodEntries: FoodEntry[]
+    foodEntries: FoodEntry[];
+    onClickFoodEntry: (foodEntry: FoodEntry) => void;
 }
 
-const FoodDiary = ({ foodEntries }: Props) => {
-    if (!foodEntries.length) return null;
+const FoodDiary = ({ foodEntries, onClickFoodEntry }: Props) => {
 
     let groupedItems: JSX.Element[] = [];
     let lastTime: Date | null = null;
 
-    foodEntries.forEach((item, index) => {
+    const sortedEntries = useMemo(() => {
+        return [...foodEntries]
+            .map(entry => ({
+                ...entry,
+                parsedTime: parseISO(entry.time).getTime()
+            }))
+            .sort((a, b) => a.parsedTime - b.parsedTime);
+    }, [foodEntries]);
+
+    sortedEntries.forEach((item, index) => { //NOT WORKING PROPERLY
         const itemTime = new Date(item.time);
 
         if (lastTime && differenceInMinutes(itemTime, lastTime) > 30) {
@@ -42,7 +52,7 @@ const FoodDiary = ({ foodEntries }: Props) => {
         }
 
         groupedItems.push(
-            <Interactable key={`item-${item.id}`}>
+            <Interactable onClick={() => onClickFoodEntry(item)} key={`item-${item.id}`}>
                 <FlexBox justify="space-between">
                     <Typography bolder size="s">{item.product.name}</Typography>
                     <FlexBox gap="s">

@@ -79,49 +79,49 @@ export const mockFoodEntries: FoodEntry[] = [
         id: 1,
         product: mockProducts[16], // Banana
         quantity: 120,
-        time: "2025-02-11T08:11:00Z"
+        time: "2025-02-17T08:11:00Z"
     },
     {
         id: 2,
         product: mockProducts[15], // Apple
         quantity: 182,
-        time: "2025-02-11T08:12:30Z"
+        time: "2025-02-17T08:12:30Z"
     },
     {
         id: 3,
         product: mockProducts[17], // Avocado
         quantity: 200,
-        time: "2025-02-11T08:19:30Z"
+        time: "2025-02-17T08:19:30Z"
     },
     {
         id: 4,
         product: mockProducts[0], // Chicken Breast
         quantity: 150,
-        time: "2025-02-11T12:30:00Z"
+        time: "2025-02-17T12:30:00Z"
     },
     {
         id: 5,
         product: mockProducts[1], // Salmon
         quantity: 154,
-        time: "2025-02-11T12:32:00Z"
+        time: "2025-02-17T12:32:00Z"
     },
     {
         id: 6,
         product: mockProducts[5], // Almonds
         quantity: 28,
-        time: "2025-02-11T15:37:00Z"
+        time: "2025-02-17T15:37:00Z"
     },
     {
         id: 7,
         product: mockProducts[8], // Brown Rice
         quantity: 200,
-        time: "2025-02-11T19:00:00Z"
+        time: "2025-02-17T19:00:00Z"
     },
     {
         id: 8,
         product: mockProducts[2], // Eggs
         quantity: 50,
-        time: "2025-02-11T19:02:00Z"
+        time: "2025-02-17T19:02:00Z"
     }
 ];
 

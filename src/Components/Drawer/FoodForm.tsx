@@ -3,9 +3,11 @@ import Button from "../Button";
 import Input from "../Input";
 import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
-import { Product } from "../../types";
-import { useRef, useState } from "react";
+import { FoodEntry, Product } from "../../types";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { format, formatISO, parseISO, set } from "date-fns";
+import useFoodEntryForm from "./useFoodEntryForm";
 
 const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
   transition: opacity 0.1s ease, visibility 0.1s ease; /* Delay hiding */
@@ -30,14 +32,22 @@ const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
 interface Props {
     product: Product | null;
     discardProduct: () => void;
+    foodEntries: FoodEntry[];
+    setFoodEntries: (foodEntries: FoodEntry[]) => void;
 }
 
-const FoodForm = ({ product, discardProduct }: Props) => {
-    const [quantity, setQuantity] = useState<number>();
+const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Props) => {
 
+    const { quantity, setQuantity, timestamp, handleTimeChange } = useFoodEntryForm();
     const onDiscardProduct = () => {
         setQuantity(parseFloat(""));
         discardProduct();
+    }
+
+    const addToDiary = () => {
+        if (product && quantity) {
+            setFoodEntries([...foodEntries, { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }])
+        }
     }
 
     return (
@@ -48,10 +58,10 @@ const FoodForm = ({ product, discardProduct }: Props) => {
             </FlexBox>
             <FlexBox gap="m">
                 <Input disabled={!product} value={quantity?.toString()} onChange={(e) => setQuantity(parseFloat(e.target.value))} prefix="Quantity (g)" type="number" />
-                <Input disabled={!product} type="time" prefix="Timestamp" />
+                <Input disabled={!product} value={format(parseISO(timestamp), "HH:mm")} onChange={handleTimeChange} type="time" prefix="Timestamp" />
             </FlexBox>
             <FlexBox column>
-                <Button disabled={!product} Icon={CheckIcon}>Add to Diary</Button>
+                <Button disabled={!product} Icon={CheckIcon} onClick={addToDiary}>Add to Diary</Button>
                 <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
             </FlexBox>
         </FormContainer>

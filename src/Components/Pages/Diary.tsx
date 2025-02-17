@@ -17,10 +17,13 @@ const emptyNoteEntry: NoteEntry = { id: -1, title: "", content: "" };
 function Diary() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerContent, setDrawerContent] = useState<string | null>(null);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
     const [noteEntries, setNoteEntries] = useState<NoteEntry[]>(mockNoteEntries);
     const [selectedNoteEntry, setSelectedNoteEntry] = useState<NoteEntry>(emptyNoteEntry);
+
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [foodEntries, setFoodEntries] = useState<FoodEntry[]>(mockFoodEntries)
+    const [selectedFoodEntry, setSelectedFoodEntry] = useState<FoodEntry | null>(null)
 
     const openDrawer = (content: string) => {
         setIsDrawerOpen(true)
@@ -29,24 +32,28 @@ function Diary() {
     }
 
     const onClickNoteEntry = (noteEntry: NoteEntry) => {
-        openDrawer("AddNote");
+        openDrawer("Note");
         setSelectedNoteEntry(noteEntry);
+    }
+    const onClickFoodEntry = (foodEntry: FoodEntry) => {
+        openDrawer("EditFood");
+        setSelectedFoodEntry(foodEntry);
     }
 
     return (
         <>
             <PageHeader>Diary</PageHeader>
             <Drawer isOpen={isDrawerOpen} setOpen={setIsDrawerOpen} >
-                <DrawerContent closeDrawer={() => setIsDrawerOpen(false)} drawerContent={drawerContent} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} noteEntry={selectedNoteEntry || emptyNoteEntry} noteEntries={noteEntries} setNoteEntries={setNoteEntries} />
+                <DrawerContent closeDrawer={() => setIsDrawerOpen(false)} drawerContent={drawerContent} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} noteEntry={selectedNoteEntry || emptyNoteEntry} noteEntries={noteEntries} setNoteEntries={setNoteEntries} foodEntries={foodEntries} setFoodEntries={setFoodEntries} selectedFoodEntry={selectedFoodEntry} />
             </Drawer>
             <PageBody>
                 <Calendar />
                 <FlexBox>
                     <Button onClick={() => openDrawer("LogFood")} Icon={AppleIcon}>Log Food</Button>
                     <Button onClick={() => openDrawer("LogWeight")} Icon={ScaleIcon}>Log Weight</Button>
-                    <Button onClick={() => openDrawer("AddNote")} Icon={NoteIcon}>Add Note</Button>
+                    <Button onClick={() => openDrawer("Note")} Icon={NoteIcon}>Add Note</Button>
                 </FlexBox>
-                <FoodDiary foodEntries={foodEntries} />
+                <FoodDiary foodEntries={foodEntries} onClickFoodEntry={onClickFoodEntry} />
                 {noteEntries.map((noteEntry) => <Note onClick={() => onClickNoteEntry(noteEntry)} title={noteEntry.title} text={noteEntry.content} key={`note-${noteEntry.id}`}></Note>)}
             </PageBody>
         </>

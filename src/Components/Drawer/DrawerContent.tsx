@@ -1,8 +1,9 @@
 import { FlexBox, Typography } from "../../styledComponents";
-import { NoteEntry, Product } from "../../types";
+import { FoodEntry, NoteEntry, Product } from "../../types";
 import LogFood from "./LogFood";
 import LogWeight from "./LogWeight";
 import AddNote from "./AddNote";
+import EditFoodEntry from "./EditFoodEntry";
 
 interface Props {
     drawerContent: string | null;
@@ -12,14 +13,17 @@ interface Props {
     noteEntry: NoteEntry;
     noteEntries: NoteEntry[];
     setNoteEntries: (noteEntries: NoteEntry[]) => void;
+    foodEntries: FoodEntry[];
+    selectedFoodEntry: FoodEntry | null;
+    setFoodEntries: (foodEntries: FoodEntry[]) => void;
 
 }
 
-const DrawerContent = ({ drawerContent, closeDrawer, selectedProduct, setSelectedProduct, noteEntry, noteEntries, setNoteEntries }: Props) => {
+const DrawerContent = ({ drawerContent, closeDrawer, selectedProduct, setSelectedProduct, noteEntry, noteEntries, setNoteEntries, foodEntries, setFoodEntries, selectedFoodEntry }: Props) => {
 
     if (drawerContent === "LogFood") {
         return (
-            <LogFood selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />
+            <LogFood foodEntries={foodEntries} setFoodEntries={setFoodEntries} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} />
         )
     }
 
@@ -29,9 +33,15 @@ const DrawerContent = ({ drawerContent, closeDrawer, selectedProduct, setSelecte
         )
     }
 
-    if (drawerContent === "AddNote") {
+    if (drawerContent === "Note") {
         return (
             <AddNote noteEntries={noteEntries} noteEntry={noteEntry} setNoteEntries={setNoteEntries} closeDrawer={closeDrawer} />
+        )
+    }
+
+    if (drawerContent === "EditFood") {
+        return (
+            <EditFoodEntry foodEntries={foodEntries} foodEntry={selectedFoodEntry} setFoodEntries={setFoodEntries} closeDrawer={closeDrawer} />
         )
     }
 
