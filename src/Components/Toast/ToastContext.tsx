@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 
 export type ToastContextType = {
     open: (message: string) => void;
+    success: () => void;
     close: (id: number) => void
 }
 

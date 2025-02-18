@@ -46,13 +46,13 @@ const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Prop
         discardProduct();
     }
 
-    const addToDiary = () => {
+    const onAddToDiary = () => {
         if (product && quantity) {
             const newFoodEntry: FoodEntry = { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }
             setFoodEntries(prev => [...prev, newFoodEntry])
         }
-        toast?.open("Test");
-
+        discardProduct();
+        toast?.success();
     }
 
     return (
@@ -67,7 +67,7 @@ const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Prop
                     <Input disabled={!product} value={format(parseISO(timestamp), "HH:mm")} onChange={handleTimeChange} type="time" prefix="Timestamp" />
                 </FlexBox>
                 <FlexBox column>
-                    <Button disabled={!product} Icon={CheckIcon} onClick={addToDiary}>Add to Diary</Button>
+                    <Button disabled={!product} Icon={CheckIcon} onClick={onAddToDiary}>Add to Diary</Button>
                     <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
                 </FlexBox>
             </FormContainer>

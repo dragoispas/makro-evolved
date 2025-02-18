@@ -7,6 +7,7 @@ import { FoodEntry } from "../../types";
 import { useEffect, useState } from "react";
 import useFoodEntryForm from "./useFoodEntryForm";
 import { format, parseISO } from "date-fns";
+import { useToast } from "../Toast/ToastContext";
 
 interface Props {
     foodEntry: FoodEntry | null;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const EditFoodEntry = ({ foodEntries, foodEntry, setFoodEntries, closeDrawer }: Props) => {
+    const toast = useToast();
     const [currentFoodEntry, setCurrentFoodEntry] = useState<FoodEntry | null>(foodEntry)
     const { quantity, setQuantity, timestamp, setTimestamp, handleTimeChange } = useFoodEntryForm();
 
@@ -32,13 +34,15 @@ const EditFoodEntry = ({ foodEntries, foodEntry, setFoodEntries, closeDrawer }: 
     const onSaveFoodEntry = () => {
         const updatedFoodEntries = foodEntries.map(foodEntry => currentFoodEntry.id === foodEntry.id ? { ...foodEntry, quantity: quantity || 0, time: timestamp } : foodEntry)
         setFoodEntries(updatedFoodEntries);
-
+        closeDrawer();
+        toast?.success();
     }
 
     const onDeleteFoodEntry = () => {
         const updatedFoodEntries = foodEntries.filter(foodEntry => foodEntry.id !== currentFoodEntry.id)
         setFoodEntries(updatedFoodEntries);
         closeDrawer();
+        toast?.success();
     }
     return (
         <FlexBox column align="center" gap="l" width="100%" height="100%">

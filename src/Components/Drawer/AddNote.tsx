@@ -5,6 +5,7 @@ import Button from "../Button"
 import Input from "../Input"
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
+import { useToast } from "../Toast/ToastContext"
 
 interface Props {
     noteEntry: NoteEntry;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props) => {
+    const toast = useToast();
     const [currentNote, setCurrentNote] = useState<NoteEntry>(noteEntry)
 
     useEffect(() => {
@@ -34,12 +36,15 @@ const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props)
             const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
             setNoteEntries(updatedNoteEntries);
         }
+        closeDrawer();
+        toast?.success();
     }
 
     const onDeleteNoteEntry = () => {
         const updatedNoteEntries = noteEntries.filter(noteEntry => noteEntry.id !== currentNote.id)
         setNoteEntries(updatedNoteEntries);
         closeDrawer();
+        toast?.success();
     }
     return (
         <FlexBox column align="center" gap="l" width="100%" height="100%">
