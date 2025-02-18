@@ -22,3 +22,5 @@ export type NoteEntry = {
     title?: string,
     content: string,
 }
+
+export const emptyNoteEntry: NoteEntry = { id: -1, title: "", content: "" };

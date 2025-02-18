@@ -8,16 +8,17 @@ import { useEffect, useState } from "react";
 import useFoodEntryForm from "./useFoodEntryForm";
 import { format, parseISO } from "date-fns";
 import { useToast } from "../Toast/ToastContext";
+import { useDrawer } from "./DrawerContext";
 
 interface Props {
     foodEntry: FoodEntry | null;
     foodEntries: FoodEntry[];
-    setFoodEntries: (foodEntries: FoodEntry[]) => void;
-    closeDrawer: () => void;
 }
 
-const EditFoodEntry = ({ foodEntries, foodEntry, setFoodEntries, closeDrawer }: Props) => {
+const EditFoodEntry = ({ foodEntries, foodEntry }: Props) => {
     const toast = useToast();
+    const drawer = useDrawer();
+
     const [currentFoodEntry, setCurrentFoodEntry] = useState<FoodEntry | null>(foodEntry)
     const { quantity, setQuantity, timestamp, setTimestamp, handleTimeChange } = useFoodEntryForm();
 
@@ -33,15 +34,15 @@ const EditFoodEntry = ({ foodEntries, foodEntry, setFoodEntries, closeDrawer }: 
 
     const onSaveFoodEntry = () => {
         const updatedFoodEntries = foodEntries.map(foodEntry => currentFoodEntry.id === foodEntry.id ? { ...foodEntry, quantity: quantity || 0, time: timestamp } : foodEntry)
-        setFoodEntries(updatedFoodEntries);
-        closeDrawer();
+        drawer?.setFoodEntries(updatedFoodEntries);
+        drawer?.close();
         toast?.success();
     }
 
     const onDeleteFoodEntry = () => {
         const updatedFoodEntries = foodEntries.filter(foodEntry => foodEntry.id !== currentFoodEntry.id)
-        setFoodEntries(updatedFoodEntries);
-        closeDrawer();
+        drawer?.setFoodEntries(updatedFoodEntries);
+        drawer?.close();
         toast?.success();
     }
     return (

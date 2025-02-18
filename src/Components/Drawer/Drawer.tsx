@@ -1,56 +1,74 @@
 import styled from "styled-components";
-import { FlexBox } from "../../styledComponents";
+import { FlexBox, Typography } from "../../styledComponents";
 import Button from "../Button";
 import { ReactComponent as CloseIcon } from "../../icons/close.svg";
+import { Overlay, DrawerContainer, ContentWrapper } from "./DrawerStyles";
+import { useCallback, useState } from "react";
+import LogFood from "./LogFood";
+import AddNote from "./AddNote";
+import EditFoodEntry from "./EditFoodEntry";
+import LogWeight from "./LogWeight";
+import { FoodEntry, NoteEntry, Product } from "../../types";
 
 interface Props {
   isOpen: boolean;
-  setOpen: (open: boolean) => void;
-  children?: React.ReactNode;
+  close: () => void;
+  content: string | null;
+
+  foodEntries: FoodEntry[];
+  noteEntries: NoteEntry[];
+  selectedFoodEntry: FoodEntry | null;
+  selectedNoteEntry: NoteEntry;
+  selectedProduct: Product | null;
 }
 
-const Overlay = styled.div<{ isOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.15);
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-  z-index: 999;
-`;
+const Drawer = (
+  { isOpen,
+    close,
+    content,
+    foodEntries,
+    noteEntries,
+    selectedFoodEntry,
+    selectedNoteEntry,
+    selectedProduct,
+  }: Props) => {
+  const renderDrawerContent = useCallback(() => {
+    if (content === "LogFood") {
+      return (
+        <LogFood foodEntries={foodEntries} selectedProduct={selectedProduct} />
+      )
+    }
 
-const DrawerContainer = styled.div<{ isOpen: boolean }>`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 450px;
-  height: 100vh;
-  padding: 10px;
-  border-left: 1px solid lightgrey;
-  background: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
-  transition: transform 0.3s ease-in-out;
-  z-index: 1000;
-`;
+    if (content === "LogWeight") {
+      return (
+        <LogWeight />
+      )
+    }
 
-const Content = styled(FlexBox)`
-  padding: 10px 10px 30px 10px;
-  height: 100%;
-`;
+    if (content === "Note") {
+      return (
+        <AddNote noteEntries={noteEntries} noteEntry={selectedNoteEntry} />
+      )
+    }
 
-const Drawer = ({ isOpen, setOpen, children }: Props) => {
+    if (content === "EditFood") {
+      return (
+        <EditFoodEntry foodEntries={foodEntries} foodEntry={selectedFoodEntry} />
+      )
+    }
+
+    return (
+      <FlexBox column align="center" gap="l" width="100%" height="100%">
+        <Typography bolder style={{ marginBottom: "20px" }}>Empty</Typography>
+      </FlexBox>
+    )
+  }, [content])
   return (
     <>
-      <Overlay isOpen={isOpen} onClick={() => setOpen(false)} />
+      <Overlay isOpen={isOpen} onClick={close} />
       <DrawerContainer isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
-        <Button Icon={CloseIcon} onClick={() => setOpen(false)} style={{ alignSelf: "flex-end" }} />
-        <Content>{children}</Content>
+        <Button Icon={CloseIcon} onClick={close} style={{ alignSelf: "flex-end" }} />
+        <ContentWrapper>{renderDrawerContent()}</ContentWrapper>
       </DrawerContainer>
     </>
   );

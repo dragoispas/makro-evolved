@@ -6,16 +6,17 @@ import Input from "../Input"
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 import { useToast } from "../Toast/ToastContext"
+import { useDrawer } from "./DrawerContext"
 
 interface Props {
     noteEntry: NoteEntry;
     noteEntries: NoteEntry[];
-    setNoteEntries: React.Dispatch<React.SetStateAction<NoteEntry[]>>;
-    closeDrawer: () => void;
 }
 
-const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props) => {
+const AddNote = ({ noteEntries, noteEntry }: Props) => {
     const toast = useToast();
+    const drawer = useDrawer();
+
     const [currentNote, setCurrentNote] = useState<NoteEntry>(noteEntry)
 
     useEffect(() => {
@@ -31,19 +32,19 @@ const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props)
                 title: currentNote.title,
                 content: currentNote.content
             }
-            setNoteEntries(prev => [...prev, newNoteEntry])
+            drawer?.setNoteEntries(prev => [...prev, newNoteEntry])
         } else {
             const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
-            setNoteEntries(updatedNoteEntries);
+            drawer?.setNoteEntries(updatedNoteEntries);
         }
-        closeDrawer();
+        drawer?.close();
         toast?.success();
     }
 
     const onDeleteNoteEntry = () => {
         const updatedNoteEntries = noteEntries.filter(noteEntry => noteEntry.id !== currentNote.id)
-        setNoteEntries(updatedNoteEntries);
-        closeDrawer();
+        drawer?.setNoteEntries(updatedNoteEntries);
+        drawer?.close();
         toast?.success();
     }
     return (
