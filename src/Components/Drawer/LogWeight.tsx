@@ -9,7 +9,9 @@ const LogWeight = () => {
         <FlexBox column align="center" gap="l" width="100%" height="100%">
             <Typography bolder style={{ marginBottom: "20px" }}>Log Your Weight</Typography>
             <WeightChart />
-            <Input prefix="Weight (kg)" type="number" />
+            <FlexBox width="95%">
+                <Input prefix="Weight (kg)" type="number" />
+            </FlexBox>
             <Button style={{ width: "100%" }} Icon={CheckIcon}>Log this Weight</Button>
         </FlexBox>
     )

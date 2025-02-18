@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { format, formatISO, parseISO, set } from "date-fns";
 import useFoodEntryForm from "./useFoodEntryForm";
+import { useToast } from "../Toast/ToastContext";
 
 const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
   transition: opacity 0.1s ease, visibility 0.1s ease; /* Delay hiding */
@@ -37,6 +38,7 @@ interface Props {
 }
 
 const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Props) => {
+    const toast = useToast();
 
     const { quantity, setQuantity, timestamp, handleTimeChange } = useFoodEntryForm();
     const onDiscardProduct = () => {
@@ -48,26 +50,28 @@ const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Prop
         if (product && quantity) {
             const newFoodEntry: FoodEntry = { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }
             setFoodEntries(prev => [...prev, newFoodEntry])
-            console.log("asd")
-            console.log(foodEntries)
         }
+        toast?.open("Test");
+
     }
 
     return (
-        <FormContainer enabled={!!product} column width="95%" gap="xl" >
-            <FlexBox column>
-                <Typography bolder>{product ? product.name : "No product"}</Typography>
-                <Typography size="s" color="grey">{quantity && product ? `(${(product.macronutrients.protein * quantity / 100).toFixed(1)} protein, ${(product.macronutrients.fat * quantity / 100).toFixed(1)} fat, ${(product.macronutrients.carbohydrates * quantity / 100).toFixed(1)} carbohydrates, ${(product.calories * quantity / 100).toFixed(1)} calories)` : '(0 protein, 0 fat, 0 carbohydrates, 0 calories)'}</Typography>
-            </FlexBox>
-            <FlexBox gap="m">
-                <Input disabled={!product} value={quantity?.toString()} onChange={(e) => setQuantity(parseFloat(e.target.value))} prefix="Quantity (g)" type="number" />
-                <Input disabled={!product} value={format(parseISO(timestamp), "HH:mm")} onChange={handleTimeChange} type="time" prefix="Timestamp" />
-            </FlexBox>
-            <FlexBox column>
-                <Button disabled={!product} Icon={CheckIcon} onClick={addToDiary}>Add to Diary</Button>
-                <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
-            </FlexBox>
-        </FormContainer>
+        <>
+            <FormContainer enabled={!!product} column width="95%" gap="xl" >
+                <FlexBox column>
+                    <Typography bolder>{product ? product.name : "No product"}</Typography>
+                    <Typography size="s" color="grey">{quantity && product ? `(${(product.macronutrients.protein * quantity / 100).toFixed(1)} protein, ${(product.macronutrients.fat * quantity / 100).toFixed(1)} fat, ${(product.macronutrients.carbohydrates * quantity / 100).toFixed(1)} carbohydrates, ${(product.calories * quantity / 100).toFixed(1)} calories)` : '(0 protein, 0 fat, 0 carbohydrates, 0 calories)'}</Typography>
+                </FlexBox>
+                <FlexBox gap="m">
+                    <Input disabled={!product} value={quantity?.toString()} onChange={(e) => setQuantity(parseFloat(e.target.value))} prefix="Quantity (g)" type="number" />
+                    <Input disabled={!product} value={format(parseISO(timestamp), "HH:mm")} onChange={handleTimeChange} type="time" prefix="Timestamp" />
+                </FlexBox>
+                <FlexBox column>
+                    <Button disabled={!product} Icon={CheckIcon} onClick={addToDiary}>Add to Diary</Button>
+                    <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
+                </FlexBox>
+            </FormContainer>
+        </>
     )
 }
 

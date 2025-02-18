@@ -53,7 +53,7 @@ const EditFoodEntry = ({ foodEntries, foodEntry, setFoodEntries, closeDrawer }: 
             </FlexBox>
             <FlexBox column width="100%">
                 <Button onClick={onSaveFoodEntry} style={{ width: "100%" }} Icon={CheckIcon}>{currentFoodEntry.id > 0 ? `Save Changes` : `Add this Note`}</Button>
-                <Button onClick={onDeleteFoodEntry} style={{ width: "100%" }} Icon={DeleteIcon}>Delete this Note</Button>
+                <Button onClick={onDeleteFoodEntry} style={{ width: "100%" }} Icon={DeleteIcon}>Delete from Diary</Button>
             </FlexBox>
         </FlexBox>
 
