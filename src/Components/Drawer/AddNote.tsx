@@ -9,7 +9,7 @@ import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 interface Props {
     noteEntry: NoteEntry;
     noteEntries: NoteEntry[];
-    setNoteEntries: (noteEntries: NoteEntry[]) => void;
+    setNoteEntries: React.Dispatch<React.SetStateAction<NoteEntry[]>>;
     closeDrawer: () => void;
 }
 
@@ -29,7 +29,7 @@ const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props)
                 title: currentNote.title,
                 content: currentNote.content
             }
-            setNoteEntries([...noteEntries, newNoteEntry])
+            setNoteEntries(prev => [...prev, newNoteEntry])
         } else {
             const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
             setNoteEntries(updatedNoteEntries);

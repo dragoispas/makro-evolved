@@ -7,7 +7,7 @@ interface Props {
     selectedProduct: Product | null;
     setSelectedProduct: (product: Product | null) => void;
     foodEntries: FoodEntry[];
-    setFoodEntries: (foodEntries: FoodEntry[]) => void;
+    setFoodEntries: React.Dispatch<React.SetStateAction<FoodEntry[]>>;
 }
 
 const LogFood = ({ selectedProduct, setSelectedProduct, foodEntries, setFoodEntries }: Props) => {

@@ -1,4 +1,5 @@
 import { FoodEntry, NoteEntry, Product } from "./types";
+import { format, parseISO, set } from "date-fns";
 
 export const mockProducts: Product[] = [
     { name: "Chicken Breast", calories: 165, macronutrients: { protein: 31, fat: 3.6, carbohydrates: 0 } },
@@ -73,6 +74,7 @@ I swear I bought them yesterday and now they're almost overripe...`
     }
 ];
 
+const today = new Date();
 
 export const mockFoodEntries: FoodEntry[] = [
     {
@@ -123,6 +125,17 @@ export const mockFoodEntries: FoodEntry[] = [
         quantity: 50,
         time: "2025-02-17T19:02:00Z"
     }
-];
+].map(entry => {
+    const originalTime = parseISO(entry.time);
+
+    // Set today's date while keeping the original time
+    const updatedTime = set(originalTime, {
+        year: today.getFullYear(),
+        month: today.getMonth(),
+        date: today.getDate()
+    });
+
+    return { ...entry, time: format(updatedTime, "yyyy-MM-dd'T'HH:mm:ssXXX") };
+});
 
 

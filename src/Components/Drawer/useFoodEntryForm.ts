@@ -18,7 +18,7 @@ const useFoodEntryForm = () => {
         const updatedDate = set(currentDate, { hours, minutes, seconds: 0 });
 
         // Store as "YYYY-MM-DDTHH:mm:ssZ"
-        setTimestamp(format(updatedDate, "yyyy-MM-dd'T'HH:mm:ssX"));
+        setTimestamp(format(updatedDate, "yyyy-MM-dd'T'HH:mm:ssxxx"));
     };
 
 

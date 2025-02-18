@@ -33,7 +33,7 @@ interface Props {
     product: Product | null;
     discardProduct: () => void;
     foodEntries: FoodEntry[];
-    setFoodEntries: (foodEntries: FoodEntry[]) => void;
+    setFoodEntries: React.Dispatch<React.SetStateAction<FoodEntry[]>>;
 }
 
 const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Props) => {
@@ -46,7 +46,10 @@ const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Prop
 
     const addToDiary = () => {
         if (product && quantity) {
-            setFoodEntries([...foodEntries, { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }])
+            const newFoodEntry: FoodEntry = { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }
+            setFoodEntries(prev => [...prev, newFoodEntry])
+            console.log("asd")
+            console.log(foodEntries)
         }
     }
 

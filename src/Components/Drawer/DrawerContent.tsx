@@ -12,10 +12,10 @@ interface Props {
     setSelectedProduct: (product: Product | null) => void;
     noteEntry: NoteEntry;
     noteEntries: NoteEntry[];
-    setNoteEntries: (noteEntries: NoteEntry[]) => void;
+    setNoteEntries: React.Dispatch<React.SetStateAction<NoteEntry[]>>;
     foodEntries: FoodEntry[];
     selectedFoodEntry: FoodEntry | null;
-    setFoodEntries: (foodEntries: FoodEntry[]) => void;
+    setFoodEntries: React.Dispatch<React.SetStateAction<FoodEntry[]>>;
 
 }
 
