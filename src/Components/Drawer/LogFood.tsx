@@ -3,14 +3,12 @@ import { FoodEntry, Product } from "../../types";
 import FoodForm from "./FoodForm"
 import { useDrawer } from "./DrawerContext";
 import SearchInputBox from "./SearchInputBox";
+import { useFoodEntriesStore, useDiaryDrawerStore } from "../../store";
 
-interface Props {
-    selectedProduct: Product | null;
-    foodEntries: FoodEntry[];
-}
 
-const LogFood = ({ selectedProduct, foodEntries }: Props) => {
-    const drawer = useDrawer();
+const LogFood = () => {
+    const { foodEntries } = useFoodEntriesStore();
+    const { selectedProduct } = useDiaryDrawerStore();
 
     return (
         <FlexBox column align="center" gap="l" width="100%" height="100%">

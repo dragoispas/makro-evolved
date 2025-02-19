@@ -7,23 +7,21 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 import { useToast } from "../Toast/ToastContext"
 import { useDrawer } from "./DrawerContext"
+import { useNoteEntriesStore, useDiaryDrawerStore } from "../../store"
 
-interface Props {
-    noteEntry: NoteEntry;
-    noteEntries: NoteEntry[];
-}
 
-const AddNote = ({ noteEntries, noteEntry }: Props) => {
+const AddNote = () => {
     const toast = useToast();
     const drawer = useDrawer();
-
-    const [currentNote, setCurrentNote] = useState<NoteEntry>(noteEntry)
+    const { selectedNoteEntry } = useDiaryDrawerStore();
+    const { noteEntries, addNoteEntry, updateNoteEntry, deleteNoteEntry } = useNoteEntriesStore();
+    const [currentNote, setCurrentNote] = useState<NoteEntry>(selectedNoteEntry)
 
     useEffect(() => {
-        if (noteEntry) {
-            setCurrentNote(noteEntry);
+        if (selectedNoteEntry) {
+            setCurrentNote(selectedNoteEntry);
         }
-    }, [noteEntry])
+    }, [selectedNoteEntry])
 
     const onSaveNoteEntry = () => {
         if (currentNote.id < 0) {
@@ -32,19 +30,17 @@ const AddNote = ({ noteEntries, noteEntry }: Props) => {
                 title: currentNote.title,
                 content: currentNote.content
             }
-            drawer?.setNoteEntries(prev => [...prev, newNoteEntry])
+            addNoteEntry(newNoteEntry)
         } else {
-            const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
-            drawer?.setNoteEntries(updatedNoteEntries);
+            updateNoteEntry(currentNote.id, { title: currentNote.title || "Note", content: currentNote.content });
         }
-        drawer?.close();
+        drawer.close();
         toast?.success();
     }
 
     const onDeleteNoteEntry = () => {
-        const updatedNoteEntries = noteEntries.filter(noteEntry => noteEntry.id !== currentNote.id)
-        drawer?.setNoteEntries(updatedNoteEntries);
-        drawer?.close();
+        deleteNoteEntry(currentNote.id);
+        drawer.close();
         toast?.success();
     }
     return (

@@ -8,34 +8,24 @@ import LogFood from "./LogFood";
 import AddNote from "./AddNote";
 import EditFoodEntry from "./EditFoodEntry";
 import LogWeight from "./LogWeight";
-import { FoodEntry, NoteEntry, Product } from "../../types";
+import { useFoodEntriesStore, useNoteEntriesStore, useDiaryDrawerStore } from "../../store";
 
 interface Props {
   isOpen: boolean;
   close: () => void;
   content: string | null;
-
-  foodEntries: FoodEntry[];
-  noteEntries: NoteEntry[];
-  selectedFoodEntry: FoodEntry | null;
-  selectedNoteEntry: NoteEntry;
-  selectedProduct: Product | null;
 }
 
 const Drawer = (
   { isOpen,
     close,
     content,
-    foodEntries,
-    noteEntries,
-    selectedFoodEntry,
-    selectedNoteEntry,
-    selectedProduct,
   }: Props) => {
+
   const renderDrawerContent = useCallback(() => {
     if (content === "LogFood") {
       return (
-        <LogFood foodEntries={foodEntries} selectedProduct={selectedProduct} />
+        <LogFood />
       )
     }
 
@@ -47,13 +37,13 @@ const Drawer = (
 
     if (content === "Note") {
       return (
-        <AddNote noteEntries={noteEntries} noteEntry={selectedNoteEntry} />
+        <AddNote />
       )
     }
 
     if (content === "EditFood") {
       return (
-        <EditFoodEntry foodEntries={foodEntries} foodEntry={selectedFoodEntry} />
+        <EditFoodEntry />
       )
     }
 

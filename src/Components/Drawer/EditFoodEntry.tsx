@@ -9,40 +9,37 @@ import useFoodEntryForm from "./useFoodEntryForm";
 import { format, parseISO } from "date-fns";
 import { useToast } from "../Toast/ToastContext";
 import { useDrawer } from "./DrawerContext";
+import { useFoodEntriesStore, useDiaryDrawerStore } from "../../store";
 
-interface Props {
-    foodEntry: FoodEntry | null;
-    foodEntries: FoodEntry[];
-}
-
-const EditFoodEntry = ({ foodEntries, foodEntry }: Props) => {
+const EditFoodEntry = () => {
     const toast = useToast();
     const drawer = useDrawer();
+    const { selectedFoodEntry } = useDiaryDrawerStore();
+    const { deleteFoodEntry, updateFoodEntry } = useFoodEntriesStore();
 
-    const [currentFoodEntry, setCurrentFoodEntry] = useState<FoodEntry | null>(foodEntry)
+    const [currentFoodEntry, setCurrentFoodEntry] = useState<FoodEntry | null>(selectedFoodEntry)
     const { quantity, setQuantity, timestamp, setTimestamp, handleTimeChange } = useFoodEntryForm();
 
     useEffect(() => {
-        if (foodEntry) {
-            setCurrentFoodEntry(foodEntry);
-            setQuantity(foodEntry.quantity)
-            setTimestamp(foodEntry.time)
+        // console.log(foodEntry)
+        if (selectedFoodEntry) {
+            setCurrentFoodEntry(selectedFoodEntry);
+            setQuantity(selectedFoodEntry.quantity)
+            setTimestamp(selectedFoodEntry.time)
         }
-    }, [foodEntry])
+    }, [selectedFoodEntry])
 
-    if (!foodEntry || !currentFoodEntry) return null;
+    if (!selectedFoodEntry || !currentFoodEntry) return null;
 
     const onSaveFoodEntry = () => {
-        const updatedFoodEntries = foodEntries.map(foodEntry => currentFoodEntry.id === foodEntry.id ? { ...foodEntry, quantity: quantity || 0, time: timestamp } : foodEntry)
-        drawer?.setFoodEntries(updatedFoodEntries);
-        drawer?.close();
+        updateFoodEntry(currentFoodEntry.id, { quantity: quantity || 0, time: timestamp });
+        drawer.close();
         toast?.success();
     }
 
     const onDeleteFoodEntry = () => {
-        const updatedFoodEntries = foodEntries.filter(foodEntry => foodEntry.id !== currentFoodEntry.id)
-        drawer?.setFoodEntries(updatedFoodEntries);
-        drawer?.close();
+        deleteFoodEntry(currentFoodEntry.id)
+        drawer.close();
         toast?.success();
     }
     return (

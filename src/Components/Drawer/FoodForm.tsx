@@ -10,6 +10,7 @@ import { format, formatISO, parseISO, set } from "date-fns";
 import useFoodEntryForm from "./useFoodEntryForm";
 import { useToast } from "../Toast/ToastContext";
 import { useDrawer } from "./DrawerContext";
+import { useFoodEntriesStore, useDiaryDrawerStore } from "../../store";
 
 const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
   transition: opacity 0.1s ease, visibility 0.1s ease; /* Delay hiding */
@@ -40,19 +41,21 @@ const FoodForm = ({ product, foodEntries }: Props) => {
     const toast = useToast();
     const drawer = useDrawer();
 
+    const { addFoodEntry } = useFoodEntriesStore();
+    const { setSelectedProduct } = useDiaryDrawerStore();
     const { quantity, setQuantity, timestamp, handleTimeChange } = useFoodEntryForm();
 
     const discard = () => {
         setQuantity(parseFloat(""));
-        drawer?.setSelectedProduct(null);
+        setSelectedProduct(null);
     }
 
     const onAddToDiary = () => {
         if (product && quantity) {
             const newFoodEntry: FoodEntry = { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }
-            drawer?.setFoodEntries(prev => [...prev, newFoodEntry])
+            addFoodEntry(newFoodEntry)
         }
-        drawer?.setSelectedProduct(null);
+        setSelectedProduct(null);
         toast?.success();
     }
 

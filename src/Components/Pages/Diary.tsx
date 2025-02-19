@@ -11,26 +11,28 @@ import { emptyNoteEntry, FoodEntry, NoteEntry, Product } from "../../types";
 import { mockFoodEntries, mockNoteEntry, mockNoteEntries } from "../../mockData";
 import DrawerProvider from "../Drawer/DrawerProvider";
 import { useDrawer } from "../Drawer/DrawerContext";
+import { useFoodEntriesStore, useNoteEntriesStore, useDiaryDrawerStore } from "../../store";
 
 function Diary() {
     const drawer = useDrawer();
+    const { setSelectedFoodEntry, setSelectedNoteEntry } = useDiaryDrawerStore();
+    const { foodEntries } = useFoodEntriesStore();
+    const { noteEntries } = useNoteEntriesStore();
 
-    const [noteEntries, setNoteEntries] = useState<NoteEntry[]>(mockNoteEntries);
-    const [foodEntries, setFoodEntries] = useState<FoodEntry[]>(mockFoodEntries);
 
     const openDrawer = (content: string) => {
-        drawer?.open(content)
-        drawer?.setSelectedNoteEntry(emptyNoteEntry)
+        drawer.open(content)
+        setSelectedNoteEntry(emptyNoteEntry)
     }
 
     const onClickNoteEntry = (noteEntry: NoteEntry) => {
 
-        drawer?.open("Note")
-        drawer?.setSelectedNoteEntry(noteEntry);
+        drawer.open("Note")
+        setSelectedNoteEntry(noteEntry);
     }
     const onClickFoodEntry = (foodEntry: FoodEntry) => {
-        drawer?.open("EditFood")
-        drawer?.setSelectedFoodEntry(foodEntry);
+        drawer.open("EditFood")
+        setSelectedFoodEntry(foodEntry);
     }
 
     return (

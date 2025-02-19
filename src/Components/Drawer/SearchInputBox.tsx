@@ -5,6 +5,7 @@ import Input from "../Input";
 import { Product } from "../../types";
 import { mockProducts } from "../../mockData";
 import { useDrawer } from "./DrawerContext";
+import { useDiaryDrawerStore } from "../../store";
 
 const StyledSearchBox = styled.div`
   width: 95%;
@@ -104,13 +105,13 @@ interface SearchInputBoxProps {
 }
 const SearchInputBox = ({ expanded }: SearchInputBoxProps) => {
   const drawer = useDrawer();
-
+  const { setSelectedProduct } = useDiaryDrawerStore();
   const [category, setCategory] = useState<string>("All")
   const [searchInput, setSearchInput] = useState<string>("");
 
   const filteredProducts = mockProducts.map((item, index) => {
     if (item.name.includes(searchInput)) {
-      return <ListItem onClick={() => drawer?.setSelectedProduct(item)} key={index}>{item.name}</ListItem>
+      return <ListItem onClick={() => setSelectedProduct(item)} key={index}>{item.name}</ListItem>
     }
   })
 
