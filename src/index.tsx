@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import ToastProvider from './Components/Toast/ToastProvider';
+import DrawerProvider from './Components/Drawer/DrawerProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <ToastProvider>
       <BrowserRouter>
-        <App />
+        <DrawerProvider>
+          <App />
+        </DrawerProvider>
       </BrowserRouter>
     </ToastProvider>
   </React.StrictMode>

@@ -6,23 +6,22 @@ import Input from "../Input"
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/delete.svg";
 import { useToast } from "../Toast/ToastContext"
+import { useDrawer } from "./DrawerContext"
+import { useNoteEntriesStore, useDiaryDrawerStore } from "../../store"
 
-interface Props {
-    noteEntry: NoteEntry;
-    noteEntries: NoteEntry[];
-    setNoteEntries: React.Dispatch<React.SetStateAction<NoteEntry[]>>;
-    closeDrawer: () => void;
-}
 
-const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props) => {
+const AddNote = () => {
     const toast = useToast();
-    const [currentNote, setCurrentNote] = useState<NoteEntry>(noteEntry)
+    const drawer = useDrawer();
+    const { selectedNoteEntry } = useDiaryDrawerStore();
+    const { noteEntries, addNoteEntry, updateNoteEntry, deleteNoteEntry } = useNoteEntriesStore();
+    const [currentNote, setCurrentNote] = useState<NoteEntry>(selectedNoteEntry)
 
     useEffect(() => {
-        if (noteEntry) {
-            setCurrentNote(noteEntry);
+        if (selectedNoteEntry) {
+            setCurrentNote(selectedNoteEntry);
         }
-    }, [noteEntry])
+    }, [selectedNoteEntry])
 
     const onSaveNoteEntry = () => {
         if (currentNote.id < 0) {
@@ -31,19 +30,17 @@ const AddNote = ({ noteEntries, noteEntry, setNoteEntries, closeDrawer }: Props)
                 title: currentNote.title,
                 content: currentNote.content
             }
-            setNoteEntries(prev => [...prev, newNoteEntry])
+            addNoteEntry(newNoteEntry)
         } else {
-            const updatedNoteEntries = noteEntries.map(noteEntry => currentNote.id === noteEntry.id ? { ...noteEntry, title: currentNote.title || "Note", content: currentNote.content } : noteEntry)
-            setNoteEntries(updatedNoteEntries);
+            updateNoteEntry(currentNote.id, { title: currentNote.title || "Note", content: currentNote.content });
         }
-        closeDrawer();
+        drawer.close();
         toast?.success();
     }
 
     const onDeleteNoteEntry = () => {
-        const updatedNoteEntries = noteEntries.filter(noteEntry => noteEntry.id !== currentNote.id)
-        setNoteEntries(updatedNoteEntries);
-        closeDrawer();
+        deleteNoteEntry(currentNote.id);
+        drawer.close();
         toast?.success();
     }
     return (

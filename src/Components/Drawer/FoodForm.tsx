@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { format, formatISO, parseISO, set } from "date-fns";
 import useFoodEntryForm from "./useFoodEntryForm";
 import { useToast } from "../Toast/ToastContext";
+import { useDrawer } from "./DrawerContext";
+import { useFoodEntriesStore, useDiaryDrawerStore } from "../../store";
 
 const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
   transition: opacity 0.1s ease, visibility 0.1s ease; /* Delay hiding */
@@ -32,26 +34,28 @@ const FormContainer = styled(FlexBox) <{ enabled?: boolean }>`
 
 interface Props {
     product: Product | null;
-    discardProduct: () => void;
     foodEntries: FoodEntry[];
-    setFoodEntries: React.Dispatch<React.SetStateAction<FoodEntry[]>>;
 }
 
-const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Props) => {
+const FoodForm = ({ product, foodEntries }: Props) => {
     const toast = useToast();
+    const drawer = useDrawer();
 
+    const { addFoodEntry } = useFoodEntriesStore();
+    const { setSelectedProduct } = useDiaryDrawerStore();
     const { quantity, setQuantity, timestamp, handleTimeChange } = useFoodEntryForm();
-    const onDiscardProduct = () => {
+
+    const discard = () => {
         setQuantity(parseFloat(""));
-        discardProduct();
+        setSelectedProduct(null);
     }
 
     const onAddToDiary = () => {
         if (product && quantity) {
             const newFoodEntry: FoodEntry = { id: foodEntries.length + 1, product: product, quantity: quantity, time: timestamp }
-            setFoodEntries(prev => [...prev, newFoodEntry])
+            addFoodEntry(newFoodEntry)
         }
-        discardProduct();
+        setSelectedProduct(null);
         toast?.success();
     }
 
@@ -68,7 +72,7 @@ const FoodForm = ({ product, discardProduct, foodEntries, setFoodEntries }: Prop
                 </FlexBox>
                 <FlexBox column>
                     <Button disabled={!product} Icon={CheckIcon} onClick={onAddToDiary}>Add to Diary</Button>
-                    <Button disabled={!product} Icon={DeleteIcon} onClick={onDiscardProduct}>Discard</Button>
+                    <Button disabled={!product} Icon={DeleteIcon} onClick={discard}>Discard</Button>
                 </FlexBox>
             </FormContainer>
         </>

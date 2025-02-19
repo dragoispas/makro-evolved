@@ -1,25 +1,21 @@
 import { FlexBox, Typography } from "../../styledComponents"
 import { FoodEntry, Product } from "../../types";
 import FoodForm from "./FoodForm"
-import SearchInputBox from "../SearchInputBox"
-
-interface Props {
-    selectedProduct: Product | null;
-    setSelectedProduct: (product: Product | null) => void;
-    foodEntries: FoodEntry[];
-    setFoodEntries: React.Dispatch<React.SetStateAction<FoodEntry[]>>;
-}
-
-const LogFood = ({ selectedProduct, setSelectedProduct, foodEntries, setFoodEntries }: Props) => {
+import { useDrawer } from "./DrawerContext";
+import SearchInputBox from "./SearchInputBox";
+import { useFoodEntriesStore, useDiaryDrawerStore } from "../../store";
 
 
+const LogFood = () => {
+    const { foodEntries } = useFoodEntriesStore();
+    const { selectedProduct } = useDiaryDrawerStore();
 
     return (
         <FlexBox column align="center" gap="l" width="100%" height="100%">
             <Typography bolder style={{ marginBottom: "20px" }}>Add Food to Diary</Typography>
-            <SearchInputBox expanded={!selectedProduct} onSetSelectedProduct={setSelectedProduct} />
+            <SearchInputBox expanded={!selectedProduct} />
             {/* {selectedProduct && } */}
-            <FoodForm foodEntries={foodEntries} setFoodEntries={setFoodEntries} product={selectedProduct || null} discardProduct={() => setSelectedProduct(null)} />
+            <FoodForm foodEntries={foodEntries} product={selectedProduct || null} />
         </FlexBox>
     )
 }

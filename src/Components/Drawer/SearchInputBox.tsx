@@ -1,9 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as SearchIcon } from "../icons/search.svg";
-import Input from "./Input";
-import { Product } from "../types";
-import { mockProducts } from "../mockData";
+import { ReactComponent as SearchIcon } from "../../icons/search.svg";
+import Input from "../Input";
+import { Product } from "../../types";
+import { mockProducts } from "../../mockData";
+import { useDrawer } from "./DrawerContext";
+import { useDiaryDrawerStore } from "../../store";
 
 const StyledSearchBox = styled.div`
   width: 95%;
@@ -99,16 +101,17 @@ const SelectableButtons = ({ options, selected, setSelected }: ButtonsProps) => 
 };
 
 interface SearchInputBoxProps {
-  onSetSelectedProduct: (product: Product) => void;
   expanded?: boolean;
 }
-const SearchInputBox = ({ onSetSelectedProduct, expanded }: SearchInputBoxProps) => {
+const SearchInputBox = ({ expanded }: SearchInputBoxProps) => {
+  const drawer = useDrawer();
+  const { setSelectedProduct } = useDiaryDrawerStore();
   const [category, setCategory] = useState<string>("All")
   const [searchInput, setSearchInput] = useState<string>("");
 
   const filteredProducts = mockProducts.map((item, index) => {
     if (item.name.includes(searchInput)) {
-      return <ListItem onClick={() => onSetSelectedProduct(item)} key={index}>{item.name}</ListItem>
+      return <ListItem onClick={() => setSelectedProduct(item)} key={index}>{item.name}</ListItem>
     }
   })
 
